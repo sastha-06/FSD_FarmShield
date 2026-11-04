@@ -1,0 +1,12 @@
+{
+  "name": "farmshield",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "FarmShield - AI-Powered Farmer Support and Agricultural Decision Support Platform",
+  "scripts": {
+    "dev": "node dev.js",
+    "server": "npm run start --prefix server",
+    "client": "npm run dev --prefix client",
+    "build:client": "npm run build --prefix client"
+  }
+}

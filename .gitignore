@@ -1,0 +1,56 @@
+# ==========================================
+# FarmShield Git Ignore Configuration
+# ==========================================
+
+# 1. Environment & Sensitive Credentials (NEVER commit secrets!)
+.env
+.env.*
+!.env.example
+*.env
+server/.env
+
+# 2. Node Dependencies (re-installed with 'npm install')
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# 3. Build & Distribution Directories
+dist/
+build/
+client/dist/
+client/build/
+
+# 4. Uploads & Temporary Media (keeps folder structure via .gitkeep)
+server/uploads/*
+!server/uploads/.gitkeep
+uploads/*
+
+# 5. Local JSON Database / Test State
+server/src/data/db.json
+
+# 6. Logs & Runtime Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+server.log
+server_err.log
+
+# 7. Python Artifacts & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+# 8. Large Model Binaries (should not be in git)
+ai_service/plantvillage_mobilenet.onnx
+*.onnx
+
+# 9. Operating System & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
