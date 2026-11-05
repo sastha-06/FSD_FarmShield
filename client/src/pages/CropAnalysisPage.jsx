@@ -20,6 +20,7 @@ import {
   UserCheck,
   Compass,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import Card from '../components/Card';
 import Badge from '../components/Badge';
@@ -28,6 +29,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import Alert from '../components/Alert';
 
 const CropAnalysisPage = ({ onOpenAddField }) => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const preselectedFieldId = searchParams.get('fieldId');
 
@@ -147,14 +149,16 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
       if (res.data?.success) {
         setResult(res.data);
       } else {
-        setError(res.data?.message || 'Diagnosis failed.');
+        setError(res.data?.message || 'AI disease classification is temporarily unavailable. Please try again later.');
       }
     } catch (err) {
       console.error('Diagnosis error:', err);
-      setError(
-        err.response?.data?.message ||
-        'Failed to complete crop health analysis. Please verify your network and try again.'
-      );
+      const serverMsg = err.response?.data?.message;
+      if (err.response?.status === 503) {
+        setError('AI disease classification is temporarily unavailable. Please try again later.');
+      } else {
+        setError(serverMsg || 'AI disease classification is temporarily unavailable. Please try again later.');
+      }
     } finally {
       setAnalyzing(false);
     }
@@ -195,17 +199,18 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-border-green">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold font-heading text-forest-green flex items-center gap-2">
-            <ScanEye className="w-6 h-6 text-fresh-green" /> AI Crop Disease & Health Diagnosis
+            <ScanEye className="w-6 h-6 text-fresh-green flex-shrink-0" />
+            <span>{t('cropAnalysis.title')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-muted-green mt-0.5">
-            Deep learning plant vision combined with your field's soil, water, and fertilizer context
+            {t('cropAnalysis.subtitle')}
           </p>
         </div>
 
         {/* Selected Field Dropdown */}
         <div className="w-full sm:w-72">
           <label className="block text-[11px] font-bold text-muted-green uppercase tracking-wider mb-1">
-            Target Agricultural Plot *
+            {t('cropPlanning.selectFieldPrompt')} *
           </label>
           <select
             value={selectedFieldId}
@@ -228,11 +233,11 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
       {selectedField && (
         <div className="p-4 rounded-2xl bg-white border border-border-green shadow-sm grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
           <div>
-            <span className="text-muted-green block text-[10px] uppercase font-bold">Selected Plot</span>
+            <span className="text-muted-green block text-[10px] uppercase font-bold">{t('cropPlanning.selectFieldPrompt')}</span>
             <span className="font-bold text-deep-charcoal truncate block">{selectedField.fieldName}</span>
           </div>
           <div>
-            <span className="text-muted-green block text-[10px] uppercase font-bold">Location & DIGIPIN</span>
+            <span className="text-muted-green block text-[10px] uppercase font-bold">{t('fields.cardDigipin')}</span>
             <span className="font-semibold text-deep-charcoal truncate block">
               {selectedField.village}, {selectedField.district}
             </span>
@@ -243,17 +248,17 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
             )}
           </div>
           <div>
-            <span className="text-muted-green block text-[10px] uppercase font-bold">Soil Type</span>
+            <span className="text-muted-green block text-[10px] uppercase font-bold">{t('fields.cardSoil')}</span>
             <span className="font-semibold text-deep-charcoal truncate block">{selectedField.soilType}</span>
           </div>
           <div>
-            <span className="text-muted-green block text-[10px] uppercase font-bold">Irrigation Mode</span>
+            <span className="text-muted-green block text-[10px] uppercase font-bold">{t('fields.cardWater')}</span>
             <span className="font-semibold text-deep-charcoal truncate block">{selectedField.irrigationMethod}</span>
           </div>
           <div>
-            <span className="text-muted-green block text-[10px] uppercase font-bold">Registered Crop</span>
+            <span className="text-muted-green block text-[10px] uppercase font-bold">{t('fields.cardCrop')}</span>
             <span className="font-bold text-forest-green truncate block">
-              {selectedField.isCropPlanted ? selectedField.cropName : 'None specified'}
+              {selectedField.isCropPlanted ? selectedField.cropName : t('common.notAvailable')}
             </span>
           </div>
         </div>
@@ -283,14 +288,13 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
                 <UploadCloud className="w-8 h-8" />
               </div>
               <h4 className="text-base font-bold font-heading text-deep-charcoal">
-                Upload Plant Leaf or Foliage Image
+                {t('cropAnalysis.step2Title')}
               </h4>
               <p className="text-xs text-muted-green mt-1 max-w-sm leading-relaxed">
-                Drag and drop your crop leaf photo here, or browse files from your computer.
-                Supports JPG, JPEG, and PNG up to 10MB.
+                {t('cropAnalysis.dropPrompt')}. {t('cropAnalysis.formatSupport')}
               </p>
               <Button variant="sage" size="sm" className="mt-5" icon={UploadCloud}>
-                Browse Leaf Image
+                {t('cropAnalysis.chooseFileBtn')}
               </Button>
             </div>
           ) : (
@@ -309,25 +313,26 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
 
                 <div className="space-y-3 max-w-md text-left">
                   <Badge variant="success" size="sm">Image Ready for Diagnosis</Badge>
-                  <h4 className="text-base font-bold font-heading text-deep-charcoal">
+                  <h4 className="text-base font-bold font-heading text-deep-charcoal break-words">
                     {selectedFile?.name}
                   </h4>
                   <p className="text-xs text-muted-green">
                     Size: {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB • Format: {selectedFile.type}
                   </p>
-                  <p className="text-xs text-deep-charcoal/80 bg-soft-cream/70 p-3 rounded-xl border border-border-green/80">
-                    💡 <strong>Tip for best diagnostic accuracy:</strong> Ensure the affected leaf occupies the majority of the frame with adequate daylight lighting.
+                  <p className="text-xs text-deep-charcoal/80 bg-soft-cream/70 p-3 rounded-xl border border-border-green/80 leading-relaxed">
+                    💡 <strong>Tip:</strong> Ensure the affected leaf occupies the majority of the frame with adequate natural daylight lighting.
                   </p>
 
-                  <div className="flex items-center gap-3 pt-2">
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
                     <Button
                       variant="primary"
                       size="md"
                       onClick={handleRunDiagnosis}
                       loading={analyzing}
                       icon={ScanEye}
+                      className="flex-shrink-0"
                     >
-                      {analyzing ? 'Running Deep Learning Inference...' : 'Run AI Diagnosis'}
+                      {analyzing ? t('cropAnalysis.analyzingPrompt') : t('cropAnalysis.btnRunAnalysis')}
                     </Button>
                     <Button
                       variant="outline"
@@ -335,8 +340,9 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
                       onClick={handleResetImage}
                       disabled={analyzing}
                       icon={RefreshCw}
+                      className="flex-shrink-0"
                     >
-                      Change Photo
+                      {t('common.refresh')}
                     </Button>
                   </div>
                 </div>
@@ -396,13 +402,13 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
           {/* SECTION 1: AI PREDICTION */}
           {/* ============================================================== */}
           <Card className="p-6 bg-white border-2 border-border-green space-y-6">
-            <div className="flex items-center justify-between border-b border-border-green pb-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-green pb-4">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-forest-green text-white flex items-center justify-center font-bold text-xs">
+                <span className="w-6 h-6 rounded-lg bg-forest-green text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
                   1
                 </span>
                 <h3 className="text-base font-bold font-heading text-forest-green">
-                  Section 1: AI Image Classification Results
+                  {t('cropAnalysis.sec1Title')}
                 </h3>
               </div>
               <Badge variant="default" size="sm">
@@ -421,7 +427,7 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
                   />
                   <div className="absolute bottom-2 left-2 right-2 bg-black/70 backdrop-blur-sm p-2 rounded-xl text-white text-[11px] flex justify-between items-center">
                     <span>Analyzed Specimen</span>
-                    <Badge variant={report.section1.confidence.replace('%', '') > 70 ? 'success' : 'warning'} size="sm">
+                    <Badge variant={Number(report.section1.confidence.replace('%', '')) > 70 ? 'success' : 'warning'} size="sm">
                       {report.section1.confidence} Conf.
                     </Badge>
                   </div>
@@ -433,7 +439,7 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs font-semibold text-muted-green uppercase tracking-wider">
-                      Predicted Condition
+                      {t('cropAnalysis.predictedCondition')}
                     </span>
                     <Badge
                       variant={
@@ -449,8 +455,8 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
                       {report.section1.predictionStatus === 'uncertain' ? 'Review Recommended' : 'Classified'}
                     </Badge>
                   </div>
-                  <h4 className="text-2xl font-extrabold font-heading text-deep-charcoal">
-                    {report.section1.predictedCondition}
+                  <h4 className="text-2xl font-extrabold font-heading text-deep-charcoal leading-snug break-words">
+                    {t(`conditions.${report.section1.predictedCondition}`, report.section1.predictedCondition)}
                   </h4>
                   <p className="text-xs text-fresh-green font-semibold mt-0.5">
                     {report.section1.statusLabel}
@@ -460,7 +466,7 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
                 {/* Confidence Bar */}
                 <div>
                   <div className="flex justify-between text-xs font-semibold mb-1">
-                    <span className="text-deep-charcoal">Model Confidence Score:</span>
+                    <span className="text-deep-charcoal">{t('cropAnalysis.modelScore')}</span>
                     <span className="text-forest-green font-bold">{report.section1.confidence}</span>
                   </div>
                   <div className="w-full h-2.5 rounded-full bg-soft-cream border border-border-green overflow-hidden">
@@ -477,41 +483,82 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
 
                 {/* Botanical Condition Description */}
                 <div className="p-3.5 rounded-xl bg-soft-cream/70 border border-border-green/80 text-xs text-deep-charcoal leading-relaxed">
-                  <p className="font-semibold text-forest-green mb-1">Botanical Profile & Lesion Description:</p>
+                  <p className="font-semibold text-forest-green mb-1">{t('cropAnalysis.botanicalProfile')}</p>
                   <p>{report.section1.conditionDescription}</p>
                 </div>
+
+                {/* Out-Of-Distribution (Non-Leaf) Warning */}
+                {report.section1.isOutOfDistribution && (
+                  <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs flex items-start gap-2.5">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-bold">{t('cropAnalysis.oodTitle')}</p>
+                      <p className="mt-0.5 text-amber-800 leading-relaxed">
+                        {t('cropAnalysis.oodDesc', { sim: report.section1.centroidSimilarity || 'low' })}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Top 3 Diagnostic Candidates */}
+                {report.section1.topPredictions && report.section1.topPredictions.length > 0 && (
+                  <div className="pt-3 border-t border-border-green/80 space-y-2">
+                    <div className="flex justify-between items-center text-xs font-bold text-deep-charcoal">
+                      <span className="uppercase tracking-wider text-[11px] text-muted-green">{t('cropAnalysis.top3Title')}</span>
+                      <span className="text-[10px] text-muted-green font-normal">{t('cropAnalysis.top3Sub')}</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {report.section1.topPredictions.map((pred, pIdx) => (
+                        <div key={pIdx} className="p-2.5 rounded-xl bg-soft-cream/60 border border-border-green/60 text-xs">
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="font-semibold text-deep-charcoal">
+                              {pIdx + 1}. {t(`crops.${pred.crop}`, pred.crop)} — {t(`conditions.${pred.condition}`, pred.condition)}
+                            </span>
+                            <span className="font-bold text-forest-green">{pred.confidence}%</span>
+                          </div>
+                          <div className="w-full h-1.5 rounded-full bg-border-green/40 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${pIdx === 0 ? 'bg-forest-green' : 'bg-muted-green/60'}`}
+                              style={{ width: `${Math.max(1, Math.min(100, pred.confidence))}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </Card>
 
           {/* ============================================================== */}
-          {/* SECTION 2: POSSIBLE CONTRIBUTING FACTORS (STANDOUT FEATURE) */}
+          {/* SECTION 2: POSSIBLE CONTRIBUTING FACTORS */}
           {/* ============================================================== */}
           <Card className="p-6 bg-white border-2 border-border-green space-y-6">
-            <div className="flex items-center justify-between border-b border-border-green pb-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-green pb-4">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-fresh-green text-white flex items-center justify-center font-bold text-xs">
+                <span className="w-6 h-6 rounded-lg bg-fresh-green text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
                   2
                 </span>
                 <h3 className="text-base font-bold font-heading text-forest-green">
-                  Section 2: Possible Contributing Factors (Context-Aware Synthesis)
+                  {t('cropAnalysis.sec2Title')}
                 </h3>
               </div>
               <Badge variant="warning" size="sm">
-                Possible Factors • Not Confirmed Causes
+                {t('cropAnalysis.sec2Badge')}
               </Badge>
             </div>
 
             <p className="text-xs text-muted-green leading-relaxed">
-              FarmShield combines the detected leaf pathology with your field's environmental records,
-              irrigation delivery, fertilization timeline, and soil profile to highlight potential agronomic triggers.
+              {t('cropAnalysis.sec2Desc')}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Environmental / Weather */}
               <div className="p-4 rounded-2xl bg-soft-cream/60 border border-border-green space-y-1.5">
                 <h5 className="text-xs font-bold text-forest-green flex items-center gap-1.5">
-                  <CloudSun className="w-4 h-4 text-fresh-green" /> Environmental & Meteorological Conditions
+                  <CloudSun className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('cropAnalysis.factorEnv')}</span>
                 </h5>
                 <p className="text-xs text-deep-charcoal/90 leading-relaxed">
                   {report.contributingFactors.environmental}
@@ -521,7 +568,8 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
               {/* Water Management */}
               <div className="p-4 rounded-2xl bg-soft-cream/60 border border-border-green space-y-1.5">
                 <h5 className="text-xs font-bold text-forest-green flex items-center gap-1.5">
-                  <Droplets className="w-4 h-4 text-fresh-green" /> Water Management & Irrigation Mode
+                  <Droplets className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('cropAnalysis.factorWater')}</span>
                 </h5>
                 <p className="text-xs text-deep-charcoal/90 leading-relaxed">
                   {report.contributingFactors.waterManagement}
@@ -531,7 +579,8 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
               {/* Fertilizer History */}
               <div className="p-4 rounded-2xl bg-soft-cream/60 border border-border-green space-y-1.5">
                 <h5 className="text-xs font-bold text-forest-green flex items-center gap-1.5">
-                  <Layers className="w-4 h-4 text-fresh-green" /> Fertilizer Application History
+                  <Layers className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('cropAnalysis.factorFertilizer')}</span>
                 </h5>
                 <p className="text-xs text-deep-charcoal/90 leading-relaxed">
                   {report.contributingFactors.fertilizerHistory}
@@ -541,7 +590,8 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
               {/* Growth Stage & Soil */}
               <div className="p-4 rounded-2xl bg-soft-cream/60 border border-border-green space-y-1.5">
                 <h5 className="text-xs font-bold text-forest-green flex items-center gap-1.5">
-                  <Sprout className="w-4 h-4 text-fresh-green" /> Growth Stage & Soil Morphology
+                  <Sprout className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('cropAnalysis.factorStageSoil')}</span>
                 </h5>
                 <p className="text-xs text-deep-charcoal/90 leading-relaxed">
                   {report.contributingFactors.growthStage} {report.contributingFactors.soilConsiderations}
@@ -555,11 +605,11 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
           {/* ============================================================== */}
           <Card className="p-6 bg-white border-2 border-border-green space-y-4">
             <div className="flex items-center gap-2 border-b border-border-green pb-4">
-              <span className="w-6 h-6 rounded-lg bg-forest-green text-white flex items-center justify-center font-bold text-xs">
+              <span className="w-6 h-6 rounded-lg bg-forest-green text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
                 3
               </span>
               <h3 className="text-base font-bold font-heading text-forest-green">
-                Section 3: Personalized Field Precautions & Safe Management
+                {t('cropAnalysis.sec3Title')}
               </h3>
             </div>
 
@@ -581,11 +631,11 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
           {/* ============================================================== */}
           <Card className="p-6 bg-white border-2 border-border-green space-y-5">
             <div className="flex items-center gap-2 border-b border-border-green pb-4">
-              <span className="w-6 h-6 rounded-lg bg-forest-green text-white flex items-center justify-center font-bold text-xs">
+              <span className="w-6 h-6 rounded-lg bg-forest-green text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
                 4
               </span>
               <h3 className="text-base font-bold font-heading text-forest-green">
-                Section 4: Actionable Next Steps & Expert Consultation
+                {t('cropAnalysis.sec4Title')}
               </h3>
             </div>
 
@@ -608,7 +658,7 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
               <UserCheck className="w-5 h-5 text-warning-amber flex-shrink-0 mt-0.5" />
               <div>
                 <h5 className="text-xs font-bold text-[#945C0B] uppercase tracking-wider">
-                  Agronomic Extension Consultation Guideline
+                  {t('cropAnalysis.expertGuideline')}
                 </h5>
                 <p className="text-xs text-[#945C0B] mt-1 leading-relaxed">
                   {report.expertConsultation}
@@ -616,6 +666,27 @@ const CropAnalysisPage = ({ onOpenAddField }) => {
               </div>
             </div>
           </Card>
+
+          {/* ============================================================== */}
+          {/* MODEL ATTRIBUTION, LICENSING & AGRONOMIC DISCLAIMER */}
+          {/* ============================================================== */}
+          <div className="p-4 rounded-2xl bg-soft-cream/60 border border-border-green/80 text-[11px] text-muted-green space-y-1.5 leading-relaxed">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-deep-charcoal font-semibold">
+              <span className="flex items-center gap-1.5">
+                <BrainCircuit className="w-3.5 h-3.5 text-forest-green flex-shrink-0" />
+                <span>{t('cropAnalysis.attributionTitle')}</span>
+              </span>
+              <span className="text-[11px] bg-light-sage/30 text-forest-green px-2 py-0.5 rounded font-medium flex-shrink-0">
+                {t('cropAnalysis.licenseBadge')}
+              </span>
+            </div>
+            <p className="leading-relaxed">
+              {t('cropAnalysis.attributionText')}
+            </p>
+            <p className="text-[10px] text-muted-green/80 italic leading-relaxed">
+              {t('cropAnalysis.disclaimerText')}
+            </p>
+          </div>
         </div>
       )}
     </div>

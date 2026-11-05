@@ -15,6 +15,7 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import Card from '../components/Card';
 import Badge from '../components/Badge';
@@ -24,6 +25,7 @@ import Alert from '../components/Alert';
 import Modal from '../components/Modal';
 
 const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
+  const { t } = useTranslation();
   const [fields, setFields] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -85,24 +87,25 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
   });
 
   if (loading) {
-    return <LoadingSpinner text="Retrieving agricultural field registries..." />;
+    return <LoadingSpinner text={t('common.loading')} />;
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fadeIn">
       {/* Top Header & Search Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold font-heading text-forest-green flex items-center gap-2">
-            <Trees className="w-6 h-6 text-fresh-green" /> Agricultural Field Registry
+            <Trees className="w-6 h-6 text-fresh-green flex-shrink-0" />
+            <span>{t('fields.title')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-muted-green mt-0.5">
-            Manage your land plots, soil profiles, irrigation methods, and fertilizer logs
+            {t('fields.subtitle')}
           </p>
         </div>
 
-        <Button onClick={onOpenAddField} variant="primary" size="md" icon={Plus}>
-          Register New Field
+        <Button onClick={onOpenAddField} variant="primary" size="md" icon={Plus} className="flex-shrink-0">
+          {t('fields.addNewFieldBtn')}
         </Button>
       </div>
 
@@ -121,7 +124,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
             <Search className="w-4 h-4 text-muted-green absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
-              placeholder="Search by field name, district, village, or crop..."
+              placeholder={t('fields.searchPlaceholder')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl border border-border-green focus:border-forest-green focus:ring-1 focus:ring-forest-green bg-soft-cream/20"
@@ -134,7 +137,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
               onChange={(e) => setFilterSoil(e.target.value)}
               className="w-full px-3 py-2 text-xs rounded-xl border border-border-green focus:border-forest-green bg-white"
             >
-              <option value="ALL">All Soil Types</option>
+              <option value="ALL">{t('fields.allSoilTypes')}</option>
               <option value="Alluvial Soil">Alluvial Soil</option>
               <option value="Black Soil">Black Soil</option>
               <option value="Red Soil">Red Soil</option>
@@ -151,7 +154,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
               onChange={(e) => setFilterPlanted(e.target.value)}
               className="w-full px-3 py-2 text-xs rounded-xl border border-border-green focus:border-forest-green bg-white"
             >
-              <option value="ALL">All Statuses</option>
+              <option value="ALL">{t('common.all')}</option>
               <option value="PLANTED">Planted Crops Only</option>
               <option value="UNPLANTED">Unplanted / Available Only</option>
             </select>
@@ -161,19 +164,17 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
 
       {/* Fields Grid */}
       {filteredFields.length === 0 ? (
-        <Card className="p-12 text-center bg-soft-cream/40 border-dashed">
+        <Card className="p-8 sm:p-12 text-center bg-soft-cream/40 border-dashed">
           <Trees className="w-12 h-12 text-muted-green mx-auto mb-3 opacity-60" />
           <h3 className="text-base font-bold text-deep-charcoal font-heading">
-            {fields.length === 0 ? 'No Fields Registered Yet' : 'No Matching Fields Found'}
+            {fields.length === 0 ? t('fields.emptyStateTitle') : t('fields.noFieldsFound')}
           </h3>
-          <p className="text-xs text-muted-green mt-1 max-w-md mx-auto mb-5">
-            {fields.length === 0
-              ? 'Start by registering your first agricultural field to unlock AI crop health diagnostics and personalized advisories.'
-              : 'Try clearing your search query or soil filter to view all fields.'}
+          <p className="text-xs text-muted-green mt-1 max-w-md mx-auto mb-5 leading-relaxed">
+            {fields.length === 0 ? t('fields.emptyStateDesc') : t('fields.noFieldsFound')}
           </p>
           {fields.length === 0 ? (
             <Button onClick={onOpenAddField} variant="primary" icon={Plus}>
-              Register Field
+              {t('fields.addNewFieldBtn')}
             </Button>
           ) : (
             <Button
@@ -185,22 +186,22 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
               variant="outline"
               size="sm"
             >
-              Reset Filters
+              {t('common.refresh')}
             </Button>
           )}
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
           {filteredFields.map((field) => (
             <Card
               key={field._id}
               hover
-              className="p-6 flex flex-col justify-between border-t-4 border-t-forest-green"
+              className="p-5 sm:p-6 flex flex-col justify-between border-t-4 border-t-forest-green h-full"
             >
               <div>
                 {/* Header with Title and Badges */}
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="text-base font-bold text-deep-charcoal font-heading truncate">
+                  <h3 className="text-base font-bold text-deep-charcoal font-heading break-words">
                     {field.fieldName}
                   </h3>
                   <Badge
@@ -208,7 +209,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
                     size="sm"
                     dot
                   >
-                    {field.isCropPlanted ? 'Crop Planted' : 'Unplanted'}
+                    {field.isCropPlanted ? 'Planted' : 'Unplanted'}
                   </Badge>
                 </div>
 
@@ -221,9 +222,9 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
 
                 {/* DIGIPIN & Geospatial Coordinates Badge */}
                 {field.digipin && (
-                  <div className="flex items-center justify-between p-2 rounded-xl bg-light-sage/30 border border-light-sage text-xs mb-3">
+                  <div className="flex items-center justify-between p-2 rounded-xl bg-light-sage/30 border border-light-sage text-xs mb-3 flex-wrap gap-1">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="text-[9px] uppercase font-extrabold text-forest-green bg-white px-1.5 py-0.5 rounded shadow-xs">
+                      <span className="text-[9px] uppercase font-extrabold text-forest-green bg-white px-1.5 py-0.5 rounded shadow-xs flex-shrink-0">
                         DIGIPIN
                       </span>
                       <span className="font-mono font-extrabold text-forest-green text-xs truncate">
@@ -231,7 +232,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
                       </span>
                     </div>
                     {field.latitude && field.longitude && (
-                      <span className="text-[10px] text-muted-green font-mono">
+                      <span className="text-[10px] text-muted-green font-mono flex-shrink-0">
                         {Number(field.latitude).toFixed(3)}°, {Number(field.longitude).toFixed(3)}°
                       </span>
                     )}
@@ -241,19 +242,19 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
                 {/* Field Metrics Matrix */}
                 <div className="grid grid-cols-2 gap-2 text-xs p-3 rounded-xl bg-soft-cream/60 border border-border-green/80 mb-4">
                   <div>
-                    <span className="text-muted-green block text-[10px] uppercase font-semibold">Area</span>
+                    <span className="text-muted-green block text-[10px] uppercase font-semibold">{t('fields.cardAcreage')}</span>
                     <span className="font-bold text-deep-charcoal">
                       {field.area} {field.areaUnit}
                     </span>
                   </div>
                   <div>
-                    <span className="text-muted-green block text-[10px] uppercase font-semibold">Soil & pH</span>
+                    <span className="text-muted-green block text-[10px] uppercase font-semibold">{t('fields.cardSoil')}</span>
                     <span className="font-semibold text-deep-charcoal truncate block">
                       {field.soilType} {field.soilPh !== null && field.soilPh !== undefined ? `(pH ${field.soilPh})` : ''}
                     </span>
                   </div>
                   <div className="mt-1 pt-1 border-t border-border-green/60">
-                    <span className="text-muted-green block text-[10px] uppercase font-semibold">Water Capacity</span>
+                    <span className="text-muted-green block text-[10px] uppercase font-semibold">{t('fields.cardWater')}</span>
                     <span className="font-semibold text-deep-charcoal truncate block">
                       {field.waterAvailability ? `${field.waterAvailability} • ${field.waterSource || field.irrigationMethod}` : field.irrigationMethod}
                     </span>
@@ -261,7 +262,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
                   <div className="mt-1 pt-1 border-t border-border-green/60">
                     <span className="text-muted-green block text-[10px] uppercase font-semibold">Prev. Crop</span>
                     <span className="font-semibold text-deep-charcoal truncate block">
-                      {field.previousCrop || 'None'}
+                      {field.previousCrop || t('common.notAvailable')}
                     </span>
                   </div>
                 </div>
@@ -270,22 +271,22 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
                 {field.isCropPlanted ? (
                   <div className="p-3 rounded-xl bg-light-sage/30 border border-light-sage space-y-2 mb-4">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-forest-green flex items-center gap-1.5">
-                        <Sprout className="w-4 h-4 text-forest-green" />
-                        {field.cropName} {field.cropVariety ? `(${field.cropVariety})` : ''}
+                      <span className="font-bold text-forest-green flex items-center gap-1.5 truncate">
+                        <Sprout className="w-4 h-4 text-forest-green flex-shrink-0" />
+                        <span className="truncate">{field.cropName} {field.cropVariety ? `(${field.cropVariety})` : ''}</span>
                       </span>
                       {field.plantingDate && (
-                        <span className="text-[10px] text-muted-green">
-                          Sown: {new Date(field.plantingDate).toLocaleDateString()}
+                        <span className="text-[10px] text-muted-green flex-shrink-0 ml-1">
+                          {t('fields.cardSownDate')}: {new Date(field.plantingDate).toLocaleDateString()}
                         </span>
                       )}
                     </div>
 
                     {/* Fertilizer Records count */}
                     <div className="text-[11px] text-deep-charcoal/80 flex items-center justify-between">
-                      <span className="text-muted-green">Fertilizer records:</span>
+                      <span className="text-muted-green">Fertilizers:</span>
                       <span className="font-semibold">
-                        {field.fertilizers?.length || 0} applications logged
+                        {field.fertilizers?.length || 0} logged
                       </span>
                     </div>
                   </div>
@@ -296,39 +297,39 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
                       to={`/crops?fieldId=${field._id}`}
                       className="text-forest-green font-semibold hover:underline inline-flex items-center gap-1 mt-1 text-[11px]"
                     >
-                      <Sparkles className="w-3 h-3 text-fresh-green" /> View Recommended Crops
+                      <Sparkles className="w-3 h-3 text-fresh-green" /> <span>{t('fields.btnPlan')}</span>
                     </Link>
                   </div>
                 )}
               </div>
 
-                {/* Action Buttons */}
-                <div className="pt-3 border-t border-border-green/80 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      onClick={() => onEditField(field)}
-                      className="p-2 rounded-lg text-deep-charcoal hover:bg-light-sage/50 transition-colors"
-                      title="Edit Field"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setDeleteTarget(field)}
-                      className="p-2 rounded-lg text-error-red hover:bg-[#FDF0EE] transition-colors"
-                      title="Delete Field"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Link to={`/analysis?fieldId=${field._id}`}>
-                      <Button variant="sage" size="sm" icon={ScanEye}>
-                        AI Diagnosis
-                      </Button>
-                    </Link>
-                  </div>
+              {/* Action Buttons */}
+              <div className="pt-3 border-t border-border-green/80 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => onEditField(field)}
+                    className="p-2 rounded-lg text-deep-charcoal hover:bg-light-sage/50 transition-colors"
+                    title={t('fields.btnEdit')}
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setDeleteTarget(field)}
+                    className="p-2 rounded-lg text-error-red hover:bg-[#FDF0EE] transition-colors"
+                    title={t('fields.btnDelete')}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
+
+                <div className="flex items-center gap-2">
+                  <Link to={`/analysis?fieldId=${field._id}`}>
+                    <Button variant="sage" size="sm" icon={ScanEye}>
+                      {t('fields.btnAnalyze')}
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </Card>
           ))}
         </div>
@@ -338,15 +339,13 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
       <Modal
         isOpen={!!deleteTarget}
         onClose={() => setDeleteTarget(null)}
-        title="Confirm Field Deletion"
-        subtitle="This action cannot be undone"
+        title={t('fields.confirmDeleteTitle')}
+        subtitle={t('fields.confirmDeleteMsg')}
         maxWidth="max-w-md"
       >
         <div className="space-y-4">
-          <p className="text-sm text-deep-charcoal">
-            Are you sure you want to delete field{' '}
-            <strong className="text-forest-green">"{deleteTarget?.fieldName}"</strong>?
-            All associated crop records and fertilizer histories will also be permanently removed.
+          <p className="text-sm text-deep-charcoal leading-relaxed">
+            {t('fields.confirmDeleteMsg')}
           </p>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border-green">
@@ -355,7 +354,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
               size="sm"
               onClick={() => setDeleteTarget(null)}
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button
               variant="danger"
@@ -363,7 +362,7 @@ const MyFieldsPage = ({ onOpenAddField, onEditField }) => {
               loading={deleting}
               onClick={handleDelete}
             >
-              Yes, Delete Field
+              {t('common.delete')}
             </Button>
           </div>
         </div>

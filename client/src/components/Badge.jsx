@@ -24,13 +24,13 @@ const Badge = ({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-medium rounded-full border ${
+      className={`inline-flex items-center gap-1.5 font-medium rounded-full border max-w-full leading-snug break-words ${
         variants[variant] || variants.default
       } ${sizes[size] || sizes.md} ${className}`}
     >
       {dot && (
         <span
-          className={`w-1.5 h-1.5 rounded-full ${
+          className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
             variant === 'success'
               ? 'bg-fresh-green'
               : variant === 'warning'
@@ -41,7 +41,7 @@ const Badge = ({
           }`}
         />
       )}
-      {children}
+      <span>{children}</span>
     </span>
   );
 };

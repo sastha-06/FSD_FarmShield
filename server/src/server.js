@@ -15,6 +15,7 @@ import advisoryRoutes from './routes/advisoryRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,6 +57,7 @@ app.use('/api/advisory', advisoryRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/location', locationRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Serve built frontend if client/dist exists
 const clientDistPath = path.resolve(__dirname, '../../client/dist');

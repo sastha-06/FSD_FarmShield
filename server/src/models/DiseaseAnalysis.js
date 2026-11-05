@@ -70,6 +70,14 @@ const diseaseAnalysisSchema = new mongoose.Schema(
       type: String,
       default: 'good',
     },
+    centroidSimilarity: {
+      type: Number,
+      default: null,
+    },
+    isOutOfDistribution: {
+      type: Boolean,
+      default: false,
+    },
     topPredictions: {
       type: [topPredictionSchema],
       default: [],

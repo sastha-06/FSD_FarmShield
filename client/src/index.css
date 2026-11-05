@@ -7,13 +7,61 @@
   body {
     background-color: #F5F7EF;
     color: #26352D;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: '"Plus Jakarta Sans"', sans-serif;
+    font-family: '"Plus Jakarta Sans"', 'Inter', sans-serif;
   }
 }
+
+/* ==========================================================================
+   LANGUAGE-ADAPTIVE SCRIPT TYPOGRAPHY & COMFORTABLE LINE-HEIGHTS
+   Ensures Indic vowels, matras, and conjuncts are never clipped or distorted
+   ========================================================================== */
+html[lang="ta"] body,
+html[lang="ta"] h1, html[lang="ta"] h2, html[lang="ta"] h3, html[lang="ta"] h4, html[lang="ta"] h5, html[lang="ta"] h6,
+html[lang="ta"] button, html[lang="ta"] input, html[lang="ta"] select, html[lang="ta"] textarea {
+  font-family: 'Noto Sans Tamil', 'Inter', sans-serif !important;
+  line-height: 1.62;
+}
+
+html[lang="hi"] body,
+html[lang="hi"] h1, html[lang="hi"] h2, html[lang="hi"] h3, html[lang="hi"] h4, html[lang="hi"] h5, html[lang="hi"] h6,
+html[lang="hi"] button, html[lang="hi"] input, html[lang="hi"] select, html[lang="hi"] textarea {
+  font-family: 'Noto Sans Devanagari', 'Inter', sans-serif !important;
+  line-height: 1.6;
+}
+
+html[lang="te"] body,
+html[lang="te"] h1, html[lang="te"] h2, html[lang="te"] h3, html[lang="te"] h4, html[lang="te"] h5, html[lang="te"] h6,
+html[lang="te"] button, html[lang="te"] input, html[lang="te"] select, html[lang="te"] textarea {
+  font-family: 'Noto Sans Telugu', 'Inter', sans-serif !important;
+  line-height: 1.65;
+}
+
+html[lang="kn"] body,
+html[lang="kn"] h1, html[lang="kn"] h2, html[lang="kn"] h3, html[lang="kn"] h4, html[lang="kn"] h5, html[lang="kn"] h6,
+html[lang="kn"] button, html[lang="kn"] input, html[lang="kn"] select, html[lang="kn"] textarea {
+  font-family: 'Noto Sans Kannada', 'Inter', sans-serif !important;
+  line-height: 1.65;
+}
+
+html[lang="ml"] body,
+html[lang="ml"] h1, html[lang="ml"] h2, html[lang="ml"] h3, html[lang="ml"] h4, html[lang="ml"] h5, html[lang="ml"] h6,
+html[lang="ml"] button, html[lang="ml"] input, html[lang="ml"] select, html[lang="ml"] textarea {
+  font-family: 'Noto Sans Malayalam', 'Inter', sans-serif !important;
+  line-height: 1.68;
+}
+
+/* Ensure no unintentional horizontal overflow on mobile viewports */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 
 /* Custom Scrollbar for smooth modern feel */
 ::-webkit-scrollbar {

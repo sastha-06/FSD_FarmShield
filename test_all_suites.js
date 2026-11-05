@@ -60,12 +60,17 @@ async function main() {
     if (code2 !== 0) throw new Error('Suite 2 failed');
 
     // Suite 3: DIGIPIN & Location Map E2E
-    console.log('\n>>> [3/3] DIGIPIN & Geospatial E2E Verification');
+    console.log('\n>>> [3/4] DIGIPIN & Geospatial E2E Verification');
     const code3 = await runCommand('node', ['test_location_e2e.js']);
     if (code3 !== 0) throw new Error('Suite 3 failed');
 
+    // Suite 4: Local DINOv2 ONNX Disease Classification E2E
+    console.log('\n>>> [4/4] Local DINOv2 ONNX Disease Classification E2E');
+    const code4 = await runCommand('node', ['server/test_local_dinov2_e2e.js']);
+    if (code4 !== 0) throw new Error('Suite 4 failed');
+
     console.log('\n====================================================');
-    console.log('🎉 ALL TEST SUITES COMPLETED WITH 100% SUCCESS!');
+    console.log('🎉 ALL 4 TEST SUITES COMPLETED WITH 100% SUCCESS!');
     console.log('====================================================');
     if (server) server.kill();
     process.exit(0);

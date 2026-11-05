@@ -6,6 +6,8 @@
  */
 
 export const SUPPORTED_CROPS = [
+  'Rice',
+  'Paddy',
   'Apple',
   'Blueberry',
   'Cherry',
@@ -27,6 +29,15 @@ export const SUPPORTED_CROPS = [
 ];
 
 export const CROP_CANONICAL_MAP = {
+  rice: 'Rice',
+  paddy: 'Rice',
+  'paddy / rice': 'Rice',
+  'rice / paddy': 'Rice',
+  நெல்: 'Rice',
+  धान: 'Rice',
+  వరి: 'Rice',
+  ಭತ್ತ: 'Rice',
+  നെല്ല്: 'Rice',
   apple: 'Apple',
   blueberry: 'Blueberry',
   cherry: 'Cherry',
@@ -717,6 +728,98 @@ export const PLANT_DISEASE_PROFILES = {
       organic: 'Apply Panchagavya or sea-weed extract at 15-day intervals.',
       chemical: 'No fungicides required.',
       preventive: 'Scout foliage weekly and maintain strict hygiene.'
+    }
+  },
+
+  // ---------------- RICE (ORYZA SATIVA - 5 classes) ----------------
+  Rice___Blast: {
+    crop: 'Rice',
+    condition: 'Rice Blast (Leaf & Neck Blast)',
+    isHealthy: false,
+    pathogen: 'Fungus (Magnaporthe oryzae / Pyricularia oryzae)',
+    description: 'Produces spindle-shaped or diamond-shaped lesions with ash-grey centers and dark brown-red borders on leaf blades; panicle infections cause neck blast with empty white earheads.',
+    symptoms: [
+      'Spindle-shaped or eye-shaped lesions with grey or white centers and dark brown margins',
+      'Lesions coalesce causing rapid foliar blighting and burning appearance',
+      'Blackish-brown rotting at panicle neck causing drooping earheads with empty chaffy grains'
+    ],
+    management: {
+      cultural: 'Avoid excessive nitrogenous fertilizer; split urea into 3-4 doses. Maintain shallow standing water in the field.',
+      organic: 'Spray Pseudomonas fluorescens (0.2% / 10g/L) or Bacillus subtilis. Apply bio-silica to strengthen leaf epidermal cuticle.',
+      chemical: 'Apply Tricyclazole 75% WP (Beam @ 0.6g/L) or Isoprothiolane 40% EC (1.5 ml/L) or Kasugamycin 3% SL (2 ml/L) at first symptom appearance.',
+      preventive: 'Use blast-tolerant cultivars (ADT 36, CO 51, TPS 5). Soak seeds in Carbendazim solution (2g/kg) for 24 hours prior to sowing.'
+    }
+  },
+  Rice___Bacterial_leaf_blight: {
+    crop: 'Rice',
+    condition: 'Bacterial Leaf Blight (BLB)',
+    isHealthy: false,
+    pathogen: 'Bacteria (Xanthomonas oryzae pv. oryzae)',
+    description: 'Water-soaked lesions on leaf margins near tips that enlarge, turn yellow-orange, and wave downward along margins, causing leaves to dry into a grayish-white straw appearance.',
+    symptoms: [
+      'Yellow-to-white wavy marginal stripes starting from leaf tips downward',
+      'Bacterial milky ooze drops visible on young lesions in humid early mornings',
+      'Rapid wilting and rolling of leaves in tillering phase (Kresek wilt)'
+    ],
+    management: {
+      cultural: 'Avoid excessive nitrogen application; ensure proper field drainage. Eradicate alternative weed hosts (Leersia hexandra) on field bunds.',
+      organic: 'Foliar spray of fresh cow dung slurry (20%) or Pseudomonas fluorescens (0.2% / 10g/L) at tillering and panicle initiation.',
+      chemical: 'Foliar spray of Copper Hydroxide (2.0g/L) or Copper Oxychloride 50% WP (2.5g/L) mixed with Streptomycin sulphate + Tetracycline hydrochloride (Plantomycin / Agrimycin 300mg/10L).',
+      preventive: 'Plant resistant rice cultivars (Improved White Ponni, CR 1009, CO 43, Samba Mahsuri). Treat seeds with Pseudomonas @ 10g/kg.'
+    }
+  },
+  Rice___Brown_spot: {
+    crop: 'Rice',
+    condition: 'Rice Brown Spot',
+    isHealthy: false,
+    pathogen: 'Fungus (Bipolaris oryzae / Cochliobolus miyabeanus)',
+    description: 'Circular to oval dark brown spots on leaves with yellowish-gray centers and yellow halos. Strongly associated with poor soil fertility, zinc deficiency, and moisture stress.',
+    symptoms: [
+      'Small dark brown spots that expand into oval sesame-seed-like lesions with yellow halos',
+      'Lesions coalesce causing large patches of foliar blighting and grain discolouration',
+      'Infected grains show dark blackish spots and poor grain filling'
+    ],
+    management: {
+      cultural: 'Correct soil nutrient deficiencies by applying recommended Potassium (MOP) and Zinc sulphate (25 kg/ha). Maintain uniform irrigation.',
+      organic: 'Foliar spray with Neem oil (3%) or Trichoderma viride (10g/L) at booting stage.',
+      chemical: 'Apply Propiconazole 25% EC (1 ml/L) or Mancozeb 75% WP (2g/L) or Carbendazim + Mancozeb (Saaf @ 2g/L) upon spot detection.',
+      preventive: 'Hot water seed treatment (53-54°C for 10 min) or seed treatment with Carbendazim (2g/kg). Avoid severe moisture stress.'
+    }
+  },
+  Rice___Leaf_smut: {
+    crop: 'Rice',
+    condition: 'Rice Leaf Smut',
+    isHealthy: false,
+    pathogen: 'Fungus (Entyloma oryzae)',
+    description: 'Small, angular, slightly raised, lead-black spots scattered along leaf veins on mature leaves, releasing powdery black teliospores in late season under heavy nitrogen.',
+    symptoms: [
+      'Small, rectangular or angular lead-black spots restricted between leaf veins',
+      'Ruptured black sorus releasing powdery teliospores in late season',
+      'Premature yellowing and drying of older leaves from apex to base'
+    ],
+    management: {
+      cultural: 'Avoid excess nitrogen fertilizer during boot leaf and flowering stages. Burn or plough in infected crop stubbles after harvest.',
+      organic: 'Spray neem seed kernel extract (NSKE 5%) or apply wood ash to supply potassium and silica.',
+      chemical: 'Foliar spray of Mancozeb (2.5g/L) or Copper Oxychloride (2.5g/L) if infection affects flag leaves.',
+      preventive: 'Ensure balanced N:P:K fertilization (120:40:40 kg/ha). Maintain clean field bunds.'
+    }
+  },
+  Rice___healthy: {
+    crop: 'Rice',
+    condition: 'Healthy Rice Foliage',
+    isHealthy: true,
+    pathogen: 'None - Foliage is Healthy',
+    description: 'Vigorous, emerald-green erect leaves free from chlorosis, necrotic spotting, leaf rolling, or pathogen lesions with healthy root tillers.',
+    symptoms: [
+      'Uniform emerald-to-lime green leaf blades without spots or edge scorching',
+      'Turgid, erect tillers with healthy root system and no bacterial ooze',
+      'Robust panicle emergence with clean green glumes'
+    ],
+    management: {
+      cultural: 'Maintain recommended alternate wetting and drying (AWD) irrigation; split nitrogen into basal, active tillering, and panicle initiation doses.',
+      organic: 'Apply Azospirillum and Phosphobacteria biofertilizers with enriched farmyard manure (FYM).',
+      chemical: 'No fungicides required. Maintain regular pest scouting.',
+      preventive: 'Routine weekly monitoring for leaf folder and stem borer activity.'
     }
   }
 };

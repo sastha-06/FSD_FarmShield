@@ -25,10 +25,12 @@ export const generateContextAwareAdvisory = ({
     isHealthy: isHealthyPrediction,
     topPredictions = [],
     cropMismatchNotice,
+    isOutOfDistribution,
+    centroidSimilarity,
   } = prediction;
 
   const isHealthy = Boolean(isHealthyPrediction || (predictedCondition && predictedCondition.toLowerCase().includes('healthy')));
-  const isUncertain = predictionStatus === 'uncertain' || confidenceLevel === 'Low / Uncertain';
+  const isUncertain = predictionStatus === 'uncertain' || confidenceLevel === 'Low / Uncertain' || Boolean(isOutOfDistribution);
   const isUnsupportedCrop = predictionStatus === 'unsupported_crop';
   const isApiUnavailable = predictionStatus === 'api_unavailable';
 
@@ -62,7 +64,9 @@ export const generateContextAwareAdvisory = ({
     statusLabel: isUnsupportedCrop
       ? `Crop "${cropName}" is outside the 14 PlantVillage trained classes`
       : isApiUnavailable
-      ? 'AI Model Service Authentication Required'
+      ? 'AI Model Service Offline or Unavailable'
+      : isOutOfDistribution
+      ? 'Non-leaf or out-of-domain image detected'
       : isHealthy
       ? 'Foliage appears healthy and vigorous'
       : isUncertain
@@ -70,6 +74,8 @@ export const generateContextAwareAdvisory = ({
       : 'Symptomatic foliar stress identified',
     topPredictions,
     cropMismatchNotice,
+    isOutOfDistribution: Boolean(isOutOfDistribution),
+    centroidSimilarity,
   };
 
   // 2. SPECIAL HANDLING: UNSUPPORTED CROPS OR API UNAVAILABLE

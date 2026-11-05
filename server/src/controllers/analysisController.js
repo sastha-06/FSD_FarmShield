@@ -42,8 +42,27 @@ export const predictAndAnalyze = async (req, res) => {
     const imagePath = req.file.path;
     const imageUrl = `/uploads/${req.file.filename}`;
 
-    // 2. Run actual AI image classification model
+    // 2. Run actual AI image classification model (Local ONNX DINOv2)
     const prediction = await classifyCropImage(imagePath, field.cropName);
+
+    // Guard: Never save failed inference requests or unavailable service errors to the database
+    if (prediction.predictionStatus === 'api_unavailable' || prediction.predictionStatus === 'error') {
+      return res.status(503).json({
+        success: false,
+        status: 'unavailable',
+        message: 'AI disease classification is temporarily unavailable. Please try again later.',
+        error: prediction.conditionDescription,
+      });
+    }
+
+    if (prediction.predictionStatus === 'unsupported_crop') {
+      return res.status(400).json({
+        success: false,
+        status: 'unsupported_crop',
+        message: prediction.conditionDescription,
+        crop: field.cropName,
+      });
+    }
 
     // 3. Compute growth stage estimate if planted
     const growthStageInfo = field.isCropPlanted
@@ -65,7 +84,7 @@ export const predictAndAnalyze = async (req, res) => {
       weatherInfo,
     });
 
-    // 6. Persist Disease Analysis record in database
+    // 6. Persist Disease Analysis record in database ONLY for valid predictions
     const analysisRecord = await createAnalysis({
       farmerId: req.farmer._id,
       fieldId: field._id,
@@ -73,13 +92,15 @@ export const predictAndAnalyze = async (req, res) => {
       predictedCondition: prediction.predictedCondition,
       confidence: prediction.confidence,
       modelName: prediction.modelName || 'rodynaemad/plant-disease-dinov2-small',
-      modelVersion: prediction.modelVersion || 'rodynaemad/plant-disease-dinov2-small',
+      modelVersion: prediction.modelVersion || 'rodynaemad/plant-disease-dinov2-small-onnx-quantized',
       predictionStatus: prediction.predictionStatus || 'classified',
       diagnosisStatus: prediction.diagnosisStatus || prediction.predictionStatus || 'classified',
       confidenceLevel: prediction.confidenceLevel || 'Moderate',
       cropSupported: prediction.cropSupported !== undefined ? prediction.cropSupported : true,
       selectedCrop: prediction.selectedCrop || field.cropName || '',
       imageQuality: prediction.imageQuality || 'good',
+      centroidSimilarity: prediction.centroidSimilarity !== undefined ? prediction.centroidSimilarity : null,
+      isOutOfDistribution: Boolean(prediction.isOutOfDistribution),
       topPredictions: prediction.topPredictions || [],
       weatherContext: weatherInfo || {},
       conditionDescription: prediction.conditionDescription || '',

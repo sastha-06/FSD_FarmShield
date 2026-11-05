@@ -48,6 +48,11 @@ ENV/
 # 8. Large Model Binaries (should not be in git)
 ai_service/plantvillage_mobilenet.onnx
 *.onnx
+*.f32
+server/models/*.onnx
+server/models/*.f32
+!server/models/.gitkeep
+!server/models/meta.json
 
 # 9. Operating System & Editor Files
 .DS_Store

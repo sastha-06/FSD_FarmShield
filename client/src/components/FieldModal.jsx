@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   MapPin,
   Layers,
@@ -68,6 +69,7 @@ const SEASONAL_AVAILABILITY_OPTIONS = [
 ];
 
 const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     fieldName: '',
     location: '',
@@ -290,8 +292,8 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={editData ? 'Edit Agricultural Field' : 'Register New Agricultural Field'}
-      subtitle="Complete agronomic profile: DIGIPIN, GPS mapping, soil health, water availability & crop history"
+      title={editData ? t('fields.btnEdit', 'Edit Agricultural Field') : t('fields.addNewFieldBtn', 'Register New Agricultural Field')}
+      subtitle={t('fieldModal.tabLocation', 'Complete agronomic profile: DIGIPIN, GPS mapping, soil health, water availability & crop history')}
       maxWidth="max-w-4xl"
     >
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -303,23 +305,23 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-border-green">
             <h4 className="text-sm font-bold text-forest-green uppercase tracking-wider flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold">1</span>
-              Basic Field Information & Area
+              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0">1</span>
+              {t('fieldModal.fieldNameLabel', 'Basic Field Information & Area')}
             </h4>
-            <span className="text-[11px] text-muted-green font-medium">Core Identifiers</span>
+            <span className="text-[11px] text-muted-green font-medium">{t('fieldModal.coreIdentifiers', 'Core Identifiers')}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="sm:col-span-2">
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Field / Plot Name *
+                {t('fieldModal.fieldNameLabel', 'Field / Plot Name')} *
               </label>
               <input
                 type="text"
                 name="fieldName"
                 value={formData.fieldName}
                 onChange={handleChange}
-                placeholder="e.g. North Cauvery Basin Plot, Sector 4"
+                placeholder={t('fieldModal.fieldNamePlaceholder', 'e.g. North Cauvery Basin Plot, Sector 4')}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-border-green focus:border-forest-green focus:ring-1 focus:ring-forest-green text-sm bg-soft-cream/30 font-semibold"
                 required
               />
@@ -328,7 +330,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
             <div className="flex gap-2">
               <div className="flex-1">
                 <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                  Field Area *
+                  {t('fieldModal.areaLabel', 'Field Area')} *
                 </label>
                 <input
                   type="number"
@@ -342,9 +344,9 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
                   required
                 />
               </div>
-              <div className="w-28">
+              <div className="w-28 flex-shrink-0">
                 <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                  Unit *
+                  {t('fieldModal.areaUnitLabel', 'Unit')} *
                 </label>
                 <select
                   name="areaUnit"
@@ -352,8 +354,8 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
                   onChange={handleChange}
                   className="w-full px-3 py-2.5 rounded-xl border border-border-green focus:border-forest-green focus:ring-1 focus:ring-forest-green text-sm bg-white"
                 >
-                  <option value="Acres">Acres</option>
-                  <option value="Hectares">Hectares</option>
+                  <option value="Acres">{t('fields.cardAcreage', 'Acres')}</option>
+                  <option value="Hectares">{t('fields.cardHectares', 'Hectares')}</option>
                 </select>
               </div>
             </div>
@@ -366,11 +368,11 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         <div className="space-y-4 pt-2 border-t border-border-green">
           <div className="flex items-center justify-between pb-2 border-b border-border-green">
             <h4 className="text-sm font-bold text-forest-green uppercase tracking-wider flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold">2</span>
-              <MapPin className="w-4 h-4 text-fresh-green" /> Geospatial Location & DIGIPIN
+              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0">2</span>
+              <MapPin className="w-4 h-4 text-fresh-green flex-shrink-0" /> {t('cropPlanning.digipinLocation', 'Geospatial Location & DIGIPIN')}
             </h4>
             <span className="text-[11px] text-muted-green font-medium">
-              National Digital Grid (India Post) & Leaflet GPS
+              {t('fieldModal.nationalGrid', 'National Digital Grid (India Post) & Leaflet GPS')}
             </span>
           </div>
 
@@ -392,7 +394,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Village / Locality *
+                {t('auth.villageDistrictLabel', 'Village / Locality')} *
               </label>
               <input
                 type="text"
@@ -407,7 +409,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                District *
+                {t('fields.district', 'District')} *
               </label>
               <input
                 type="text"
@@ -422,7 +424,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                State
+                {t('fields.state', 'State')}
               </label>
               <input
                 type="text"
@@ -436,7 +438,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div className="sm:col-span-2">
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Address Landmark / Road Access *
+                {t('fields.landmark', 'Address Landmark / Road Access')} *
               </label>
               <input
                 type="text"
@@ -451,7 +453,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Postal PIN Code
+                {t('fields.pincode', 'Postal PIN Code')}
               </label>
               <input
                 type="text"
@@ -471,16 +473,16 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         <div className="space-y-4 pt-2 border-t border-border-green">
           <div className="flex items-center justify-between pb-2 border-b border-border-green">
             <h4 className="text-sm font-bold text-forest-green uppercase tracking-wider flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold">3</span>
-              <Layers className="w-4 h-4 text-fresh-green" /> Soil Profile & Drainage
+              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0">3</span>
+              <Layers className="w-4 h-4 text-fresh-green flex-shrink-0" /> {t('cropPlanning.soilProfile', 'Soil Profile & Drainage')}
             </h4>
-            <span className="text-[11px] text-muted-green font-medium">Physical Characteristics</span>
+            <span className="text-[11px] text-muted-green font-medium">{t('fieldModal.physicalCharacteristics', 'Physical Characteristics')}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Soil Type *
+                {t('fieldModal.soilTypeLabel', 'Soil Type')} *
               </label>
               <select
                 name="soilType"
@@ -490,18 +492,18 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               >
                 {SOIL_TYPES.map((st) => (
                   <option key={st} value={st}>
-                    {st}
+                    {t(`soilTypes.${st}`, st)}
                   </option>
                 ))}
               </select>
-              <p className="text-[10px] text-muted-green mt-1">
-                Major geological texture determining water percolation and tillage.
+              <p className="text-[10px] text-muted-green mt-1 leading-relaxed">
+                {t('fieldModal.soilTypeDesc', 'Major geological texture determining water percolation and tillage.')}
               </p>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Soil Drainage Quality
+                {t('fieldModal.soilDrainageLabel', 'Soil Drainage Quality')}
               </label>
               <select
                 name="soilDrainage"
@@ -511,12 +513,12 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               >
                 {SOIL_DRAINAGE_OPTIONS.map((d) => (
                   <option key={d} value={d}>
-                    {d}
+                    {t(`soilDrainage.${d}`, d)}
                   </option>
                 ))}
               </select>
-              <p className="text-[10px] text-muted-green mt-1">
-                Affects root oxygenation and vulnerability to fungal root rot.
+              <p className="text-[10px] text-muted-green mt-1 leading-relaxed">
+                {t('fieldModal.soilDrainageDesc', 'Affects root oxygenation and vulnerability to fungal root rot.')}
               </p>
             </div>
           </div>
@@ -528,26 +530,25 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         <div className="space-y-4 pt-2 border-t border-border-green">
           <div className="flex items-center justify-between pb-2 border-b border-border-green">
             <h4 className="text-sm font-bold text-forest-green uppercase tracking-wider flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold">4</span>
-              <FlaskConical className="w-4 h-4 text-fresh-green" /> Soil Health Card & Nutrients (Optional)
+              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0">4</span>
+              <FlaskConical className="w-4 h-4 text-fresh-green flex-shrink-0" /> {t('cropPlanning.factorNutrients', 'Soil Health Card & Nutrients (Optional)')}
             </h4>
             <span className="text-[11px] text-forest-green bg-light-sage/60 px-2 py-0.5 rounded-full font-bold">
-              Recommended for Precision Guidance
+              {t('fieldModal.recommendedGuidance', 'Recommended for Precision Guidance')}
             </span>
           </div>
 
           <div className="p-3 rounded-xl bg-soft-cream/60 border border-border-green text-xs text-muted-green flex items-start gap-2">
             <Info className="w-4 h-4 text-forest-green flex-shrink-0 mt-0.5" />
-            <span>
-              If you have a <strong>Government Soil Health Card (SHC)</strong> or laboratory test report, enter your measured values below.
-              Leaving fields blank is fully supported — FarmShield will treat them as unmeasured rather than assuming false ideal conditions.
+            <span className="leading-relaxed">
+              {t('fieldModal.soilCardNotice', 'If you have a Government Soil Health Card (SHC) or laboratory test report, enter your measured values below. Leaving fields blank is fully supported — FarmShield will treat them as unmeasured rather than assuming false ideal conditions.')}
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Soil pH (3.5 - 10.0)
+                {t('fieldModal.soilPhLabel', 'Soil pH (3.5 - 10.0)')}
               </label>
               <input
                 type="number"
@@ -565,7 +566,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Available N (kg/ha)
+                {t('fieldModal.nitrogenLabel', 'Available N (kg/ha)')}
               </label>
               <input
                 type="number"
@@ -582,7 +583,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Available P (kg/ha)
+                {t('fieldModal.phosphorusLabel', 'Available P (kg/ha)')}
               </label>
               <input
                 type="number"
@@ -599,7 +600,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Available K (kg/ha)
+                {t('fieldModal.potassiumLabel', 'Available K (kg/ha)')}
               </label>
               <input
                 type="number"
@@ -618,7 +619,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Organic Carbon (OC %)
+                {t('fieldModal.organicCarbonLabel', 'Organic Carbon (OC %)')}
               </label>
               <input
                 type="number"
@@ -636,7 +637,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Electrical Cond. (EC dS/m)
+                {t('fieldModal.electricalConductivityLabel', 'Electrical Cond. (EC dS/m)')}
               </label>
               <input
                 type="number"
@@ -653,7 +654,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Available Zinc (Zn ppm)
+                {t('fieldModal.zincLabel', 'Available Zinc (Zn ppm)')}
               </label>
               <input
                 type="number"
@@ -670,7 +671,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-[11px] font-semibold text-deep-charcoal mb-1">
-                Soil Test Date
+                {t('fieldModal.soilTestDate', 'Soil Test Date')}
               </label>
               <input
                 type="date"
@@ -679,7 +680,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
                 onChange={handleChange}
                 className="w-full px-3 py-2 rounded-xl border border-border-green focus:border-forest-green text-xs bg-white"
               />
-              <span className="text-[9px] text-muted-green">Date of sampling</span>
+              <span className="text-[9px] text-muted-green">{t('fieldModal.dateOfSampling', 'Date of sampling')}</span>
             </div>
           </div>
         </div>
@@ -690,16 +691,16 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         <div className="space-y-4 pt-2 border-t border-border-green">
           <div className="flex items-center justify-between pb-2 border-b border-border-green">
             <h4 className="text-sm font-bold text-forest-green uppercase tracking-wider flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold">5</span>
-              <Droplets className="w-4 h-4 text-fresh-green" /> Irrigation & Water Availability
+              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0">5</span>
+              <Droplets className="w-4 h-4 text-fresh-green flex-shrink-0" /> {t('cropPlanning.factorWater', 'Irrigation & Water Availability')}
             </h4>
-            <span className="text-[11px] text-muted-green font-medium">Hydrological Profile</span>
+            <span className="text-[11px] text-muted-green font-medium">{t('fieldModal.hydrologicalProfile', 'Hydrological Profile')}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Primary Water Source *
+                {t('fieldModal.waterSourceLabel', 'Primary Water Source')} *
               </label>
               <select
                 name="waterSource"
@@ -709,7 +710,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               >
                 {WATER_SOURCE_OPTIONS.map((ws) => (
                   <option key={ws} value={ws}>
-                    {ws}
+                    {t(`waterSources.${ws}`, ws)}
                   </option>
                 ))}
               </select>
@@ -717,7 +718,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Water Availability Level *
+                {t('fieldModal.waterAvailabilityLabel', 'Water Availability Level')} *
               </label>
               <select
                 name="waterAvailability"
@@ -727,7 +728,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               >
                 {WATER_AVAILABILITY_OPTIONS.map((wa) => (
                   <option key={wa} value={wa}>
-                    {wa} Availability
+                    {t(`waterAvailability.${wa}`, `${wa} Availability`)}
                   </option>
                 ))}
               </select>
@@ -735,7 +736,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Seasonal Reliability
+                {t('fieldModal.seasonalReliability', 'Seasonal Reliability')}
               </label>
               <select
                 name="seasonalAvailability"
@@ -745,7 +746,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               >
                 {SEASONAL_AVAILABILITY_OPTIONS.map((sa) => (
                   <option key={sa} value={sa}>
-                    {sa}
+                    {t(`seasonalAvailability.${sa}`, sa)}
                   </option>
                 ))}
               </select>
@@ -753,7 +754,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Irrigation Delivery Method *
+                {t('fieldModal.irrigationMethodLabel', 'Irrigation Delivery Method')} *
               </label>
               <select
                 name="irrigationMethod"
@@ -763,7 +764,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               >
                 {IRRIGATION_METHODS.map((im) => (
                   <option key={im} value={im}>
-                    {im}
+                    {t(`irrigationMethods.${im}`, im)}
                   </option>
                 ))}
               </select>
@@ -771,28 +772,28 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Irrigation Frequency (Optional)
+                {t('fieldModal.irrigationFrequency', 'Irrigation Frequency (Optional)')}
               </label>
               <input
                 type="text"
                 name="irrigationFrequency"
                 value={formData.irrigationFrequency}
                 onChange={handleChange}
-                placeholder="e.g. Every 3 days, Weekly"
+                placeholder={t('fieldModal.frequencyPlaceholder', 'e.g. Every 3 days, Weekly')}
                 className="w-full px-3 py-2 rounded-xl border border-border-green focus:border-forest-green text-xs bg-soft-cream/20"
               />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                Available Water Quantity / Capacity
+                {t('fieldModal.waterQuantity', 'Available Water Quantity / Capacity')}
               </label>
               <input
                 type="text"
                 name="estimatedWaterQuantity"
                 value={formData.estimatedWaterQuantity}
                 onChange={handleChange}
-                placeholder="e.g. 4 hours power/day, 2-inch pipe"
+                placeholder={t('fieldModal.quantityPlaceholder', 'e.g. 4 hours power/day, 2-inch pipe')}
                 className="w-full px-3 py-2 rounded-xl border border-border-green focus:border-forest-green text-xs bg-soft-cream/20"
               />
             </div>
@@ -805,15 +806,15 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         <div className="space-y-4 pt-2 border-t border-border-green">
           <div className="flex items-center justify-between pb-2 border-b border-border-green">
             <h4 className="text-sm font-bold text-forest-green uppercase tracking-wider flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold">6</span>
-              <Sprout className="w-4 h-4 text-fresh-green" /> Crop Status & Rotation History
+              <span className="w-5 h-5 rounded-full bg-forest-green text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0">6</span>
+              <Sprout className="w-4 h-4 text-fresh-green flex-shrink-0" /> {t('cropPlanning.factorRotation', 'Crop Status & Rotation History')}
             </h4>
-            <span className="text-[11px] text-muted-green font-medium">Agronomic Cycle</span>
+            <span className="text-[11px] text-muted-green font-medium">{t('fieldModal.agronomicCycle', 'Agronomic Cycle')}</span>
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-              Previous Crop Harvested from this Plot
+              {t('fieldModal.previousCrop', 'Previous Crop Harvested from this Plot')}
             </label>
             <input
               type="text"
@@ -823,28 +824,28 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               placeholder="e.g. Black Gram, Rice, Soybean, Groundnut"
               className="w-full px-3.5 py-2 rounded-xl border border-border-green focus:border-forest-green focus:ring-1 focus:ring-forest-green text-sm bg-soft-cream/30"
             />
-            <p className="text-[10px] text-muted-green mt-1">
-              Used to evaluate nitrogen fixation benefits and break pest/nematode carryover cycles.
+            <p className="text-[10px] text-muted-green mt-1 leading-relaxed">
+              {t('fieldModal.rotationDesc', 'Used to evaluate nitrogen fixation benefits and break pest/nematode carryover cycles.')}
             </p>
           </div>
 
           {/* Planted Toggle */}
-          <div className="bg-light-sage/30 rounded-2xl p-4 border border-light-sage flex items-center justify-between">
+          <div className="bg-light-sage/30 rounded-2xl p-4 border border-light-sage flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <Sprout className="w-6 h-6 text-forest-green" />
+              <Sprout className="w-6 h-6 text-forest-green flex-shrink-0" />
               <div>
                 <p className="text-sm font-bold text-forest-green">
-                  Is a crop currently planted in this field?
+                  {t('fieldModal.isCropPlantedPrompt', 'Is a crop currently planted in this field?')}
                 </p>
-                <p className="text-xs text-muted-green">
+                <p className="text-xs text-muted-green leading-relaxed">
                   {formData.isCropPlanted
-                    ? 'Yes: Track growth stages, days since planting & fertilizer applications'
-                    : 'No: Field will receive multi-factor crop recommendations'}
+                    ? t('fieldModal.plantedYesDesc', 'Yes: Track growth stages, days since planting & fertilizer applications')
+                    : t('fieldModal.plantedNoDesc', 'No: Field will receive multi-factor crop recommendations')}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-shrink-0">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -864,7 +865,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                    Crop Name *
+                    {t('fieldModal.cropNameLabel', 'Crop Name')} *
                   </label>
                   <input
                     type="text"
@@ -879,7 +880,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
                 <div>
                   <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                    Variety (Optional)
+                    {t('fieldModal.cropVarietyLabel', 'Variety (Optional)')}
                   </label>
                   <input
                     type="text"
@@ -893,7 +894,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
 
                 <div>
                   <label className="block text-xs font-semibold text-deep-charcoal mb-1">
-                    Planting / Sowing Date *
+                    {t('fieldModal.sowingDateLabel', 'Planting / Sowing Date')} *
                   </label>
                   <input
                     type="date"
@@ -909,13 +910,13 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
               {/* Fertilizer Log */}
               <div className="pt-2 border-t border-border-green space-y-3">
                 <h5 className="text-xs font-bold text-forest-green uppercase tracking-wider">
-                  Fertilizer Application History
+                  {t('fieldModal.fertilizerHistory', 'Fertilizer Application History')}
                 </h5>
 
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
-                    placeholder="Fertilizer Name (e.g. Urea 46% N, DAP 18:46:0)"
+                    placeholder={t('fieldModal.fertilizerName', 'Fertilizer Name (e.g. Urea 46% N, DAP 18:46:0)')}
                     value={fertilizerInput.fertilizerName}
                     onChange={(e) =>
                       setFertilizerInput({ ...fertilizerInput, fertilizerName: e.target.value })
@@ -937,7 +938,7 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
                     size="sm"
                     icon={Plus}
                   >
-                    Add Log
+                    {t('fieldModal.addFertilizerBtn', 'Add Log')}
                   </Button>
                 </div>
 
@@ -971,12 +972,12 @@ const FieldModal = ({ isOpen, onClose, onSave, editData = null }) => {
         </div>
 
         {/* Modal Actions */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-border-green">
-          <Button type="button" variant="outline" onClick={onClose} disabled={submitting}>
-            Cancel
+        <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-4 border-t border-border-green">
+          <Button type="button" variant="outline" onClick={onClose} disabled={submitting} className="w-full sm:w-auto">
+            {t('common.cancel', 'Cancel')}
           </Button>
-          <Button type="submit" variant="primary" loading={submitting}>
-            {editData ? 'Save Changes' : 'Register Agricultural Field'}
+          <Button type="submit" variant="primary" loading={submitting} className="w-full sm:w-auto">
+            {editData ? t('common.saveChanges', 'Save Changes') : t('fieldModal.btnSaveField', 'Register Agricultural Field')}
           </Button>
         </div>
       </form>

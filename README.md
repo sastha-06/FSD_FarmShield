@@ -69,7 +69,7 @@ Precision agricultural planning requires authentic geographic location. FarmShie
 | **Frontend** | React.js 18 (ES6+ JavaScript, JSX only — *no TypeScript*), Tailwind CSS, React Router DOM v6, Axios, Lucide React, Recharts |
 | **Backend** | Node.js (v22), Express.js (ES Modules), REST APIs, Multer (Leaf Image Processing), CORS |
 | **Database** | MongoDB & Mongoose (with automated fallback to persistent JSON storage engine for zero-configuration local runs) |
-| **AI / Machine Learning** | Python 3.11, ONNX Runtime (`onnxruntime`), Pillow (`PIL`), NumPy, MobileNetV2 architecture trained on PlantVillage disease categories |
+| **AI / Computer Vision** | DINOv2-small Quantized ONNX (`rodynaemad/plant-disease-dinov2-small`, ~24MB), `onnxruntime-node`, `sharp` image preprocessing, 38 PlantVillage condition classes across 14 crops, 768-dim embedding centroid Out-Of-Distribution (OOD) leaf detection |
 | **Authentication** | JSON Web Tokens (JWT), bcrypt password hashing, Protected Routes |
 | **Weather** | Open-Meteo Meteorological API (live, keyless, non-blocking) |
 
@@ -140,15 +140,23 @@ FARM_Shield/
 
 ### 1. Prerequisites
 - **Node.js**: v18+ (tested on v22)
-- **Python**: v3.10+ (tested on v3.11 with `pillow`, `numpy`, `onnxruntime`)
-- **MongoDB** *(Optional)*: If MongoDB is running on `mongodb://127.0.0.1:27017/farmshield`, the app connects to it automatically; otherwise, FarmShield seamlessly activates its persistent JSON storage engine with zero configuration!
+- **MongoDB** *(Optional)*: Connects to MongoDB Atlas via `MONGODB_URI` in `server/.env`. If MongoDB is offline, FarmShield seamlessly activates its persistent JSON storage engine with zero configuration!
+- **AI Model Assets**: Run `npm run setup-model --prefix server` to download the official 24MB quantized DINOv2 ONNX model (`model_with_features_quantized.onnx`), `centroids.f32`, and `meta.json`.
 
 ### 2. Run the Full-Stack Application
 
 From the project root:
 
 ```bash
-# Option A: Start the complete unified full-stack server (Frontend + Backend + AI)
+# Step 1: Ensure dependencies and AI model are downloaded
+npm install --prefix server
+npm install --prefix client
+npm run setup-model --prefix server
+
+# Step 2: Build frontend
+npm run build --prefix client
+
+# Step 3: Start the complete unified full-stack server
 npm run server
 ```
 Open **[http://localhost:5000](http://localhost:5000)** in your browser!
@@ -170,16 +178,19 @@ Open **[http://localhost:5173](http://localhost:5173)** in your browser.
 FarmShield includes comprehensive test suites covering all system modules:
 
 ```bash
-# 1. Run All FarmShield Test Suites (Multi-factor Unit Tests, REST API E2E, DIGIPIN E2E)
+# 1. Run All FarmShield Test Suites (Multi-factor Unit Tests, REST API E2E, DIGIPIN E2E, DINOv2 ONNX E2E)
 node test_all_suites.js
 
-# 2. Multi-Factor Crop Recommendation & Weather Unit Tests (31 checks)
+# 2. Local DINOv2 ONNX Disease Classification E2E (29 checks)
+cd server; node test_local_dinov2_e2e.js
+
+# 3. Multi-Factor Crop Recommendation & Weather Unit Tests (31 checks)
 node test_multi_factor_crop_system.js
 
-# 3. Multi-Factor REST API E2E Tests (27 checks)
+# 4. Multi-Factor REST API E2E Tests (27 checks)
 node test_multifactor_api_e2e.js
 
-# 4. DIGIPIN & Location Selection E2E Verification (7 checks)
+# 5. DIGIPIN & Location Selection E2E Verification (7 checks)
 node test_location_e2e.js
 ```
 

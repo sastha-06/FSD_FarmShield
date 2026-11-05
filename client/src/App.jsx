@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from './context/AuthContext';
 import api from './services/api';
 
@@ -19,10 +20,12 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import FieldModal from './components/FieldModal';
 import LoadingSpinner from './components/LoadingSpinner';
+import Chatbot from './components/Chatbot';
 
 const ProtectedLayout = ({ children, onOpenAddField, onEditField }) => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const getPageMeta = () => {
     switch (location.pathname) {
@@ -30,28 +33,28 @@ const ProtectedLayout = ({ children, onOpenAddField, onEditField }) => {
         return { title: null, subtitle: null };
       case '/fields':
         return {
-          title: 'Agricultural Fields',
-          subtitle: 'Manage and monitor all your registered agricultural parcels',
+          title: t('fields.title'),
+          subtitle: t('fields.subtitle'),
         };
       case '/crops':
         return {
-          title: 'Smart Crop Planning',
-          subtitle: 'Agronomic recommendations and lifecycle growth stage tracking',
+          title: t('cropPlanning.title'),
+          subtitle: t('cropPlanning.subtitle'),
         };
       case '/analysis':
         return {
-          title: 'AI Crop Health Analysis',
-          subtitle: 'Computer vision leaf scanning and context-aware guidance',
+          title: t('cropAnalysis.title'),
+          subtitle: t('cropAnalysis.subtitle'),
         };
       case '/history':
         return {
-          title: 'Analysis History',
-          subtitle: 'Historical diagnostic reports and advisory references',
+          title: t('history.title'),
+          subtitle: t('history.subtitle'),
         };
       case '/profile':
         return {
-          title: 'Farmer Profile',
-          subtitle: 'Manage personal credentials and security settings',
+          title: t('profile.title'),
+          subtitle: t('profile.subtitle'),
         };
       default:
         return { title: null, subtitle: null };
@@ -273,6 +276,9 @@ const App = () => {
         onSave={handleSaveField}
         editData={editFieldData}
       />
+
+      {/* Global Multilingual AI Farmer Assistant Chatbot */}
+      <Chatbot />
     </>
   );
 };

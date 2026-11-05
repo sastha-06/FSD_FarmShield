@@ -342,6 +342,8 @@ export const createAnalysis = async (analysisData) => {
     cropSupported: analysisData.cropSupported !== undefined ? analysisData.cropSupported : true,
     selectedCrop: analysisData.selectedCrop || '',
     imageQuality: analysisData.imageQuality || 'good',
+    centroidSimilarity: analysisData.centroidSimilarity !== undefined ? analysisData.centroidSimilarity : null,
+    isOutOfDistribution: Boolean(analysisData.isOutOfDistribution),
     topPredictions: analysisData.topPredictions || [],
     reviewedByExpert: Boolean(analysisData.reviewedByExpert),
     weatherContext: analysisData.weatherContext || {},

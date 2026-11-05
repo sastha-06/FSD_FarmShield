@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   ShieldCheck,
   Sprout,
@@ -22,6 +23,8 @@ import Card from '../components/Card';
 import Badge from '../components/Badge';
 
 const LandingPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-soft-cream flex flex-col font-sans">
       <Navbar />
@@ -36,34 +39,27 @@ const LandingPage = () => {
             {/* Left Hero Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-light-sage/70 border border-light-sage text-forest-green text-xs font-semibold uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-fresh-green animate-pulse" />
-                AI-Powered Farmer Decision Platform
+                <span className="w-2 h-2 rounded-full bg-fresh-green animate-pulse flex-shrink-0" />
+                {t('landing.heroBadge', 'AI-Powered Smart Agriculture Platform')}
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-forest-green leading-[1.15] tracking-tight">
-                Smarter Farming Starts with{' '}
-                <span className="relative text-fresh-green inline-block">
-                  Better Decisions.
-                  <svg className="absolute -bottom-2 left-0 w-full h-3 text-fresh-green/30" viewBox="0 0 100 20" preserveAspectRatio="none">
-                    <path d="M0,10 Q50,0 100,10" fill="none" stroke="currentColor" strokeWidth="4" />
-                  </svg>
-                </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-forest-green leading-[1.2] tracking-tight">
+                {t('landing.heroTitle', 'Smarter Farming Starts with Better Decisions')}
               </h1>
 
-              <p className="text-lg sm:text-xl text-deep-charcoal/80 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                Empowering farmers with AI-powered crop health analysis, smart crop
-                recommendations, and personalized agricultural guidance.
+              <p className="text-base sm:text-lg lg:text-xl text-deep-charcoal/80 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                {t('landing.heroSubtitle', 'Empowering farmers with AI-powered crop health analysis, smart crop recommendations, and personalized agricultural guidance.')}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                 <Link to="/register" className="w-full sm:w-auto">
                   <Button variant="primary" size="lg" className="w-full sm:w-auto shadow-md" icon={ArrowRight}>
-                    Get Started Free
+                    {t('landing.ctaButton', 'Register Your Farm Free')}
                   </Button>
                 </Link>
                 <a href="#features" className="w-full sm:w-auto">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Explore Features
+                    {t('nav.features', 'Explore Features')}
                   </Button>
                 </a>
               </div>
@@ -71,16 +67,16 @@ const LandingPage = () => {
               {/* Trust Metric Micro-bar */}
               <div className="pt-6 border-t border-border-green/80 flex flex-wrap items-center justify-center lg:justify-start gap-6 sm:gap-10 text-xs font-medium text-muted-green">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-fresh-green" />
-                  <span>PlantVillage AI Model</span>
+                  <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('landing.feat1Title', 'DINOv2 Disease Classification')}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-fresh-green" />
-                  <span>Context-Aware Diagnosis</span>
+                  <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('landing.feat2Title', 'Context-Aware Diagnosis')}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-fresh-green" />
-                  <span>Zero Guesswork Guidance</span>
+                  <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
+                  <span>{t('landing.feat3Title', 'India Post DIGIPIN Mapping')}</span>
                 </div>
               </div>
             </div>
@@ -101,20 +97,20 @@ const LandingPage = () => {
                   <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-border-green shadow-lg">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-fresh-green animate-ping" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-fresh-green animate-ping flex-shrink-0" />
                         <span className="text-xs font-bold text-forest-green uppercase tracking-wide">
-                          Live Crop Diagnosis
+                          {t('cropAnalysis.title', 'Live Crop Diagnosis')}
                         </span>
                       </div>
-                      <Badge variant="success" size="sm">94.2% Confidence</Badge>
+                      <Badge variant="success" size="sm">94.2% {t('history.colConfidence', 'Confidence')}</Badge>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-light-sage flex items-center justify-center text-forest-green font-bold text-lg">
+                      <div className="w-12 h-12 rounded-xl bg-light-sage flex items-center justify-center text-forest-green font-bold text-lg flex-shrink-0">
                         🍃
                       </div>
-                      <div className="text-left">
-                        <p className="text-sm font-bold text-deep-charcoal">Tomato Early Blight</p>
-                        <p className="text-xs text-muted-green">Integrated with Soil & Rainfed Context</p>
+                      <div className="text-left min-w-0">
+                        <p className="text-sm font-bold text-deep-charcoal truncate">{t('conditions.Tomato___Early_blight', 'Tomato Early Blight')}</p>
+                        <p className="text-xs text-muted-green truncate">{t('cropAnalysis.sec2Badge', 'Integrated with Soil & Rainfed Context')}</p>
                       </div>
                     </div>
                   </div>
@@ -122,10 +118,10 @@ const LandingPage = () => {
 
                 {/* Decorative Badge */}
                 <div className="absolute -top-4 -right-4 bg-forest-green text-white p-3.5 rounded-2xl shadow-xl flex items-center gap-2.5 border-2 border-white">
-                  <BrainCircuit className="w-6 h-6 text-light-sage" />
+                  <BrainCircuit className="w-6 h-6 text-light-sage flex-shrink-0" />
                   <div className="text-left">
-                    <p className="text-[10px] text-light-sage uppercase tracking-wider font-semibold">Standout Feature</p>
-                    <p className="text-xs font-bold">Context-Aware Advisory</p>
+                    <p className="text-[10px] text-light-sage uppercase tracking-wider font-semibold">DINOv2 ONNX</p>
+                    <p className="text-xs font-bold">{t('landing.feat2Title', 'Context-Aware Advisory')}</p>
                   </div>
                 </div>
               </div>
@@ -138,77 +134,77 @@ const LandingPage = () => {
       <section id="how-it-works" className="py-20 bg-white border-y border-border-green">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Badge variant="default" size="sm" className="mb-3">
-            Transparent Workflow
+            {t('landing.howItWorksSubtitle', 'Transparent Workflow')}
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-forest-green">
-            How FarmShield Works
+            {t('landing.howItWorksTitle', 'How FarmShield Works')}
           </h2>
-          <p className="mt-3 text-base text-muted-green max-w-2xl mx-auto">
-            From field registration to AI leaf classification and field-tailored guidance in four simple steps.
+          <p className="mt-3 text-base text-muted-green max-w-2xl mx-auto leading-relaxed">
+            {t('landing.howItWorksSubtitle', 'From field registration to AI leaf classification and field-tailored guidance in four simple steps.')}
           </p>
 
           <div className="mt-14 grid grid-cols-1 md:grid-cols-4 gap-8 relative">
             {/* Step 1 */}
             <div className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative">
+              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative flex-shrink-0">
                 1
                 <span className="absolute -bottom-2 text-[10px] font-semibold bg-forest-green text-white px-2 py-0.5 rounded-full group-hover:bg-fresh-green">
-                  Step
+                  {t('common.step', 'Step')}
                 </span>
               </div>
-              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading">
-                Register Your Field
+              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading break-words">
+                {t('landing.step1Title', '1. Register Your Field')}
               </h3>
               <p className="text-xs text-muted-green leading-relaxed max-w-xs">
-                Log your plot name, location, soil type, irrigation method, and whether a crop is currently planted.
+                {t('landing.step1Desc', 'Log your plot name, location, soil type, irrigation method, and whether a crop is currently planted.')}
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative">
+              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative flex-shrink-0">
                 2
                 <span className="absolute -bottom-2 text-[10px] font-semibold bg-forest-green text-white px-2 py-0.5 rounded-full group-hover:bg-fresh-green">
-                  Step
+                  {t('common.step', 'Step')}
                 </span>
               </div>
-              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading">
-                Plan Your Crop
+              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading break-words">
+                {t('landing.step2Title', '2. Plan Your Crop')}
               </h3>
               <p className="text-xs text-muted-green leading-relaxed max-w-xs">
-                Receive top 3 seasonal crop recommendations for unplanted fields, or track growth stages for planted crops.
+                {t('landing.step2Desc', 'Receive top 3 seasonal crop recommendations for unplanted fields, or track growth stages for planted crops.')}
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative">
+              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative flex-shrink-0">
                 3
                 <span className="absolute -bottom-2 text-[10px] font-semibold bg-forest-green text-white px-2 py-0.5 rounded-full group-hover:bg-fresh-green">
-                  Step
+                  {t('common.step', 'Step')}
                 </span>
               </div>
-              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading">
-                Analyze Crop Health
+              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading break-words">
+                {t('landing.step3Title', '3. Analyze Crop Health')}
               </h3>
               <p className="text-xs text-muted-green leading-relaxed max-w-xs">
-                Upload a plant leaf image. Our AI model classifies the disease with true computer vision inference.
+                {t('landing.step3Desc', 'Upload a plant leaf image. Our AI model classifies the disease with true computer vision inference.')}
               </p>
             </div>
 
             {/* Step 4 */}
             <div className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative">
+              <div className="w-16 h-16 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center font-bold text-xl shadow-sm group-hover:bg-forest-green group-hover:text-white transition-all duration-300 mb-5 relative flex-shrink-0">
                 4
                 <span className="absolute -bottom-2 text-[10px] font-semibold bg-forest-green text-white px-2 py-0.5 rounded-full group-hover:bg-fresh-green">
-                  Step
+                  {t('common.step', 'Step')}
                 </span>
               </div>
-              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading">
-                Receive Guidance
+              <h3 className="text-base font-bold text-deep-charcoal mb-2 font-heading break-words">
+                {t('landing.step4Title', '4. Receive Guidance')}
               </h3>
               <p className="text-xs text-muted-green leading-relaxed max-w-xs">
-                Receive personalized context-aware advisory synthesizing AI diagnosis with your field soil, water, and weather.
+                {t('landing.step4Desc', 'Receive personalized context-aware advisory synthesizing AI diagnosis with your field soil, water, and weather.')}
               </p>
             </div>
           </div>
@@ -220,13 +216,13 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <Badge variant="default" size="sm" className="mb-3">
-              Comprehensive Agronomic Toolkit
+              {t('landing.featuresTitle', 'Comprehensive Smart Farm Intelligence')}
             </Badge>
             <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-forest-green">
-              Precision Intelligence for Modern Agriculture
+              {t('landing.featuresTitle', 'Precision Intelligence for Modern Agriculture')}
             </h2>
-            <p className="mt-3 text-base text-muted-green">
-              Built specifically for farmers seeking scientific, transparent agricultural decisions without guesswork.
+            <p className="mt-3 text-base text-muted-green leading-relaxed">
+              {t('landing.featuresSubtitle', 'Everything an Indian farmer needs to reduce crop risks and maximize farm profitability.')}
             </p>
           </div>
 
@@ -234,25 +230,24 @@ const LandingPage = () => {
             {/* Feature 1 */}
             <Card hover className="p-8 border-border-green/80 flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center mb-6 flex-shrink-0">
                   <Sprout className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold font-heading text-forest-green mb-3">
-                  1. Smart Crop Recommendations
+                <h3 className="text-xl font-bold font-heading text-forest-green mb-3 break-words">
+                  {t('landing.feat2Title', '1. Smart Crop Recommendations')}
                 </h3>
                 <p className="text-sm text-deep-charcoal/80 leading-relaxed mb-6">
-                  Transparent rule-based recommendation engine for unplanted land. Computes suitability based on
-                  regional soil types, irrigation infrastructure, seasonal calendars (Kharif, Rabi, Zaid), and previous crop rotation benefits.
+                  {t('landing.feat2Desc', 'Agronomic recommendation engine analyzing soil pH, N-P-K nutrients, irrigation availability, and regional crop calendars.')}
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs text-muted-green border-t border-border-green pt-4">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Top 3 realistic crop alternatives with agronomic match score</span>
+                  <span>{t('cropPlanning.recommendationsHeader', 'Top 3 realistic crop alternatives with agronomic match score')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Growing duration, water demands, and risk precautions</span>
+                  <span>{t('cropPlanning.practicalPrecautions', 'Growing duration, water demands, and risk precautions')}</span>
                 </li>
               </ul>
             </Card>
@@ -260,24 +255,24 @@ const LandingPage = () => {
             {/* Feature 2 */}
             <Card hover className="p-8 border-border-green/80 flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center mb-6 flex-shrink-0">
                   <ScanEye className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold font-heading text-forest-green mb-3">
-                  2. AI Crop Disease Detection
+                <h3 className="text-xl font-bold font-heading text-forest-green mb-3 break-words">
+                  {t('landing.feat1Title', '2. DINOv2 Disease Classification')}
                 </h3>
                 <p className="text-sm text-deep-charcoal/80 leading-relaxed mb-6">
-                  Computer vision inference powered by an ONNX MobileNet architecture trained on PlantVillage disease categories. Validates botanical foliage, checks leaf chlorophyll integrity, and outputs real confidence scores.
+                  {t('landing.feat1Desc', 'State-of-the-art quantized DINOv2 vision model running locally on your device with out-of-distribution leaf detection across 38 PlantVillage categories.')}
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs text-muted-green border-t border-border-green pt-4">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Real machine learning inference — no synthetic outputs</span>
+                  <span>{t('cropAnalysis.top3Sub', 'Real machine learning inference — no synthetic outputs')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Reliable handling of uncertain images and non-plant uploads</span>
+                  <span>{t('cropAnalysis.oodTitle', 'Reliable handling of uncertain images and non-plant uploads')}</span>
                 </li>
               </ul>
             </Card>
@@ -285,27 +280,27 @@ const LandingPage = () => {
             {/* Feature 3 (Standout) */}
             <Card hover className="p-8 border-2 border-fresh-green/40 bg-gradient-to-br from-white to-light-sage/20 flex flex-col justify-between relative overflow-hidden">
               <div className="absolute top-4 right-4 bg-fresh-green text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                Standout Feature
+                {t('common.active', 'Standout Feature')}
               </div>
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-forest-green text-white flex items-center justify-center mb-6 shadow-md">
+                <div className="w-14 h-14 rounded-2xl bg-forest-green text-white flex items-center justify-center mb-6 shadow-md flex-shrink-0">
                   <BrainCircuit className="w-7 h-7 text-light-sage" />
                 </div>
-                <h3 className="text-xl font-bold font-heading text-forest-green mb-3">
-                  3. Context-Aware Agricultural Advisory
+                <h3 className="text-xl font-bold font-heading text-forest-green mb-3 break-words">
+                  3. {t('cropAnalysis.sec2Badge', 'Context-Aware Agricultural Advisory')}
                 </h3>
                 <p className="text-sm text-deep-charcoal/80 leading-relaxed mb-6">
-                  FarmShield bridges the gap between vision AI and actual farm reality. It synthesizes the detected disease with field soil, irrigation type, fertilizer logs, crop growth stage, and live meteorological data into a structured 4-part advisory report.
+                  {t('cropAnalysis.sec2Desc', 'FarmShield combines the detected leaf pathology with your field environmental records, irrigation delivery, fertilization timeline, and soil profile to highlight potential agronomic triggers.')}
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs text-muted-green border-t border-border-green pt-4">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Distinguishes potential contributing factors from confirmed causes</span>
+                  <span>{t('cropAnalysis.sec2Badge', 'Distinguishes potential contributing factors from confirmed causes')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Safe field precautions & agronomic extension guidelines</span>
+                  <span>{t('cropAnalysis.sec3Title', 'Safe field precautions & agronomic extension guidelines')}</span>
                 </li>
               </ul>
             </Card>
@@ -313,24 +308,24 @@ const LandingPage = () => {
             {/* Feature 4 */}
             <Card hover className="p-8 border-border-green/80 flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-light-sage text-forest-green flex items-center justify-center mb-6 flex-shrink-0">
                   <Trees className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold font-heading text-forest-green mb-3">
-                  4. Agricultural Field Management
+                <h3 className="text-xl font-bold font-heading text-forest-green mb-3 break-words">
+                  4. {t('landing.feat3Title', 'India Post DIGIPIN Mapping')}
                 </h3>
                 <p className="text-sm text-deep-charcoal/80 leading-relaxed mb-6">
-                  A centralized dashboard to register multiple farm parcels, monitor cultivated acreage in Acres or Hectares, record fertilizer applications with dates, and track crop lifecycle timelines effortlessly.
+                  {t('landing.feat3Desc', 'Precise 3.8m x 3.8m agricultural micro-plot boundaries utilizing the official 10-character National Digital Addressing grid.')}
                 </p>
               </div>
               <ul className="space-y-2.5 text-xs text-muted-green border-t border-border-green pt-4">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Full CRUD support for plots with auto growth-stage calculations</span>
+                  <span>{t('fields.subtitle', 'Full CRUD support for plots with auto growth-stage calculations')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fresh-green flex-shrink-0" />
-                  <span>Historical diagnostic archive preserving previous reports</span>
+                  <span>{t('history.subtitle', 'Historical diagnostic archive preserving previous reports')}</span>
                 </li>
               </ul>
             </Card>
@@ -344,13 +339,13 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
               <Badge variant="default" size="sm" className="mb-3">
-                Why FarmShield?
+                {t('nav.whyFarmShield', 'Why FarmShield?')}
               </Badge>
               <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-forest-green leading-tight">
-                Traditional disease apps stop at a label. FarmShield provides actionable context.
+                {t('landing.whyTitle', 'Traditional disease apps stop at a label. FarmShield provides actionable context.')}
               </h2>
               <p className="mt-4 text-sm sm:text-base text-deep-charcoal/80 leading-relaxed">
-                A computer vision classification alone cannot tell you why a fungal pathogen flourished in your specific field. FarmShield analyzes whether your flood irrigation created excess root moisture, whether recent high humidity triggered spore germination, or whether an unbalanced nitrogen application made leaf tissue susceptible.
+                {t('landing.whyDesc', 'A computer vision classification alone cannot tell you why a fungal pathogen flourished in your specific field. FarmShield analyzes whether your flood irrigation created excess root moisture, whether recent high humidity triggered spore germination, or whether an unbalanced nitrogen application made leaf tissue susceptible.')}
               </p>
 
               <div className="mt-8 space-y-4">
@@ -359,9 +354,9 @@ const LandingPage = () => {
                     <Droplets className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-deep-charcoal">Water & Irrigation Correlation</h4>
-                    <p className="text-xs text-muted-green mt-0.5">
-                      Identifies when drip, sprinkler, or flood irrigation methods contribute to foliar disease transmission.
+                    <h4 className="text-sm font-bold text-deep-charcoal">{t('cropAnalysis.factorWater', 'Water & Irrigation Correlation')}</h4>
+                    <p className="text-xs text-muted-green mt-0.5 leading-relaxed">
+                      {t('cropPlanning.factorWater', 'Identifies when drip, sprinkler, or flood irrigation methods contribute to foliar disease transmission.')}
                     </p>
                   </div>
                 </div>
@@ -371,9 +366,9 @@ const LandingPage = () => {
                     <Layers className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-deep-charcoal">Fertilizer Log Review</h4>
-                    <p className="text-xs text-muted-green mt-0.5">
-                      Cross-checks recent urea or DAP applications to detect nitrogen imbalances that soften leaf cell walls.
+                    <h4 className="text-sm font-bold text-deep-charcoal">{t('cropAnalysis.factorFertilizer', 'Fertilizer Log Review')}</h4>
+                    <p className="text-xs text-muted-green mt-0.5 leading-relaxed">
+                      {t('cropPlanning.factorNutrients', 'Cross-checks recent urea or DAP applications to detect nitrogen imbalances that soften leaf cell walls.')}
                     </p>
                   </div>
                 </div>
@@ -383,9 +378,9 @@ const LandingPage = () => {
                     <SunMedium className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-deep-charcoal">Live Weather Integration</h4>
-                    <p className="text-xs text-muted-green mt-0.5">
-                      Incorporates live temperature, humidity, and rainfall from Open-Meteo meteorological stations.
+                    <h4 className="text-sm font-bold text-deep-charcoal">{t('landing.feat4Title', 'Live Weather Integration')}</h4>
+                    <p className="text-xs text-muted-green mt-0.5 leading-relaxed">
+                      {t('landing.feat4Desc', 'Incorporates live temperature, humidity, and rainfall from Open-Meteo meteorological stations.')}
                     </p>
                   </div>
                 </div>
@@ -396,43 +391,43 @@ const LandingPage = () => {
             <div className="bg-forest-green text-white rounded-3xl p-8 sm:p-10 shadow-xl relative overflow-hidden">
               <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-fresh-green/20 rounded-full blur-2xl pointer-events-none" />
               <h3 className="text-2xl font-bold font-heading mb-4 text-light-sage">
-                Key Benefits for Agricultural Producers
+                {t('landing.benefitsTitle', 'Key Benefits for Agricultural Producers')}
               </h3>
               <p className="text-xs text-white/80 mb-6 leading-relaxed">
-                Designed to minimize input waste, prevent harvest losses, and equip farmers with scientific agronomy.
+                {t('landing.benefitsSubtitle', 'Designed to minimize input waste, prevent harvest losses, and equip farmers with scientific agronomy.')}
               </p>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-fresh-green flex-shrink-0" />
-                  <span className="text-sm">Early pathogen detection before irreversible canopy collapse</span>
+                  <span className="text-sm">{t('landing.b1', 'Early pathogen detection before irreversible canopy collapse')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-fresh-green flex-shrink-0" />
-                  <span className="text-sm">Personalized precautions tailored to your specific irrigation setup</span>
+                  <span className="text-sm">{t('landing.b2', 'Personalized precautions tailored to your specific irrigation setup')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-fresh-green flex-shrink-0" />
-                  <span className="text-sm">Estimated growth-stage tracking from sowing to harvest</span>
+                  <span className="text-sm">{t('landing.b3', 'Estimated growth-stage tracking from sowing to harvest')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-fresh-green flex-shrink-0" />
-                  <span className="text-sm">Permanent record keeping of all past field diagnoses</span>
+                  <span className="text-sm">{t('landing.b4', 'Permanent record keeping of all past field diagnoses')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-fresh-green flex-shrink-0" />
-                  <span className="text-sm">Clear recommendations on when to consult university extension agronomists</span>
+                  <span className="text-sm">{t('landing.b5', 'Clear recommendations on when to consult university extension agronomists')}</span>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
+              <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs text-white/70">Ready to optimize your farm?</p>
-                  <p className="text-sm font-bold text-light-sage">Create your free farmer account</p>
+                  <p className="text-xs text-white/70">{t('landing.ctaSubtitle', 'Ready to optimize your farm?')}</p>
+                  <p className="text-sm font-bold text-light-sage">{t('auth.registerTitle', 'Create your free farmer account')}</p>
                 </div>
-                <Link to="/register">
-                  <Button variant="secondary" size="sm" icon={ArrowRight}>
-                    Get Started
+                <Link to="/register" className="w-full sm:w-auto">
+                  <Button variant="secondary" size="sm" icon={ArrowRight} className="w-full sm:w-auto">
+                    {t('common.getStarted', 'Get Started')}
                   </Button>
                 </Link>
               </div>
@@ -445,13 +440,13 @@ const LandingPage = () => {
       <section id="about" className="py-16 bg-soft-cream border-t border-border-green">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Badge variant="default" size="sm" className="mb-3">
-            About FarmShield
+            {t('nav.about', 'About FarmShield')}
           </Badge>
           <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-forest-green">
-            AI-Powered Farmer Support and Decision Support Platform
+            {t('landing.heroBadge', 'AI-Powered Farmer Support and Decision Support Platform')}
           </h2>
           <p className="mt-4 text-sm text-deep-charcoal/80 leading-relaxed">
-            FarmShield is engineered to democratize access to agronomic intelligence. Combining machine learning computer vision, transparent agronomic recommendation rules, and context-aware agricultural advisory, FarmShield bridges the gap between field data and actionable farm decisions.
+            {t('landing.footerText', 'FarmShield is engineered to democratize access to agronomic intelligence. Combining machine learning computer vision, transparent agronomic recommendation rules, and context-aware agricultural advisory, FarmShield bridges the gap between field data and actionable farm decisions.')}
           </p>
         </div>
       </section>
@@ -461,7 +456,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-fresh-green flex items-center justify-center text-forest-green font-bold shadow-sm">
+              <div className="w-9 h-9 rounded-xl bg-fresh-green flex items-center justify-center text-forest-green font-bold shadow-sm flex-shrink-0">
                 <ShieldCheck className="w-5 h-5 text-forest-green" />
               </div>
               <span className="text-xl font-bold font-heading text-white">
@@ -469,19 +464,19 @@ const LandingPage = () => {
               </span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-6 text-xs text-white/80">
-              <a href="#features" className="hover:text-white transition-colors">Features</a>
-              <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
-              <a href="#why-farmshield" className="hover:text-white transition-colors">Why FarmShield</a>
-              <a href="#about" className="hover:text-white transition-colors">About</a>
-              <Link to="/login" className="hover:text-white transition-colors">Farmer Login</Link>
-              <Link to="/register" className="hover:text-white transition-colors">Register</Link>
+            <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-white/80">
+              <a href="#features" className="hover:text-white transition-colors">{t('nav.features', 'Features')}</a>
+              <a href="#how-it-works" className="hover:text-white transition-colors">{t('nav.howItWorks', 'How It Works')}</a>
+              <a href="#why-farmshield" className="hover:text-white transition-colors">{t('nav.whyFarmShield', 'Why FarmShield')}</a>
+              <a href="#about" className="hover:text-white transition-colors">{t('nav.about', 'About')}</a>
+              <Link to="/login" className="hover:text-white transition-colors">{t('nav.login', 'Farmer Login')}</Link>
+              <Link to="/register" className="hover:text-white transition-colors">{t('nav.register', 'Register')}</Link>
             </div>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/60">
-            <p>© {new Date().getFullYear()} FarmShield Agronomic Systems. All rights reserved.</p>
-            <p className="flex items-center gap-1">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/60 text-center sm:text-left">
+            <p>© {new Date().getFullYear()} FarmShield Agronomic Systems. {t('common.allRightsReserved', 'All rights reserved.')}</p>
+            <p className="flex items-center justify-center gap-1">
               Engineered with <span className="text-fresh-green">React, Node.js & PyTorch/ONNX</span>
             </p>
           </div>
