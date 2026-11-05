@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+// Automatically use the Render backend URL in production, or localhost for development
+const getBaseURL = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return `${import.meta.env.VITE_API_URL}/api`;
+  }
+  return 'http://localhost:5000/api';
+};
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: getBaseURL(),
 });
 
 // Request interceptor to attach JWT token
@@ -21,7 +29,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Don't auto-redirect if trying to login
       if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
         localStorage.removeItem('farmshield_token');
         localStorage.removeItem('farmshield_farmer');
